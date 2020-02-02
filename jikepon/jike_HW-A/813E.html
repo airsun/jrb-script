@@ -1,0 +1,106 @@
+﻿<html>
+<head>
+<title>813E脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  设备名 ${sysname}  MAC ${auth}    ONT-ID  0/${epon}/${ont0}:${ont1} <br/>
+	  外层VLAN ${vlan3}  外层vlan QINQ上行口 0/${uplink0} ${uplink1}<br/>
+	  专线VLAN ${vlan2} 专线vlan 上行口 0/${uplink2} ${uplink3}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT外层VLAN及粗流配置<br/>
+		<br/>
+		vlan ${vlan3} smart<br/>
+		vlan attrib ${vlan3} q-in-q <br/> 
+		port vlan ${vlan3} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont all multi-service user-vlan 3001 to 3950 <br/>
+		<br/>
+		<br/>
+    ******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT注册ONU及FTTH业务配置<br/>
+		<br/>
+    interface  epon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} mac-auth  ${auth} oam  ont-lineprofile-id  200 ont-srvprofile-id  40 desc ${sysname}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  1 vlan ${ont1+3801}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  2 vlan ${ont1+3801}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  3 vlan ${ont1+3801}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  4 vlan ${ont1+3801}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+		service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${ont1+3801}<br/>
+		<br/>
+		service-port vlan 4015 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4015 inbound traffic-table index 26 outbound traffic-table index 26 <br/>
+		<br/>
+		service-port vlan 3951 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 3951 inbound traffic-table index 25 outbound traffic-table index 25 <br/>
+		<br/>
+		service-port vlan ${vlan3-500} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 1031 inbound traffic-table index 24 outbound traffic-table index 24 <br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+    <br/>
+		OLT注册ONU及专线业务配置<br/>
+		<br/>
+    interface  epon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} mac-auth  ${auth} oam  ont-lineprofile-id  200 ont-srvprofile-id  40 desc ${sysname}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  1 vlan ${vlan2}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  2 vlan ${vlan2}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  3 vlan ${vlan2}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  4 vlan ${vlan2}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    vlan ${vlan2} smart<br/>
+		<br/>
+		port vlan ${vlan2} 0/${uplink2} ${uplink3}<br/>
+		<br/>
+    service-port  vlan  ${vlan2} epon  0/${epon}/${ont0} ont  ${ont1} multi-service  user-vlan   ${vlan2}<br/>
+    <br/>
+    <br/>
+		<br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿<html>
+<head>
+<title>5620-R308 WLAN 脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	
+	  设备名 ${sysname}  MAC ${auth}    ONT-ID  0/${epon}${ont0}${ont1}  <br/>
+	  管理IP ${ip}  管理网关 ${gateway}   管理VLAN ${vlan0}  过滤MAC ${mac} <br/>
+	  WLAN专线VLAN ${vlan2}   WLAN专线vlan上行口 0/${uplink2} ${uplink3} <br/>
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT注册ONU配置<br/>
+		<br/>
+		interface epon 0/${epon}<br/>
+		ont add  ${ont0} ${ont1}  mac-auth  ${auth}  snmp ont-lineprofile-id 300  desc ${sysname}<br/>
+		ont snmp-profile  ${ont0} ${ont1}  profile-id  3 <br/>
+		ont ipconfig  ${ont0} ${ont1}  ip-address   ${ip}   mask 255.255.255.0  gateway  ${gateway}  manage-vlan ${vlan0}<br/>
+		<br/>
+		quit<br/>
+		<br/>
+		service-port vlan ${vlan0} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan0}<br/>
+		<br/>
+		<br/>
+		vlan ${vlan2} smart<br/>
+		<br/>
+		port vlan ${vlan2} 0/${uplink2} ${uplink3} <br/>
+		<br/>
+		service-port vlan ${vlan2} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan2}<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		ONU WLAN 业务配置<br/>
+		<br/>
+		telnet ${ip}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>
+		sysname ${sysname}<br/>
+		time @{time}<br/>
+		<br/>
+		ntp-service  unicast-server  211.103.11.147<br/>
+    <br/>
+		<br/>
+		autos  time on<br/>
+		autos time 13:00:00<br/>
+		security mac-filter source ${mac} <br/>
+		<br/>
+		<br/>
+		vlan ${vlan2}  smart<br/>
+		<br/>
+		<br/>
+		port vlan  ${vlan2}  0/0  1 <br/>
+		<br/>
+		port vlan  ${vlan2}  0/0  2 <br/>
+		<br/>
+		multi-service-port  vlan  ${vlan2}  board 1 user-vlan untagged rx-cttr 6 tx-cttr 6 <br/>
+		y<br/>
+		<br/>
+		<br/>
+		interface  eth   0/1 <br/>
+    <br/>
+    poe legacy<br/>
+    <br/>
+    <br/>
+    q<br/>
+    <br/>
+    save<br/>
+    <br/>
+    <br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

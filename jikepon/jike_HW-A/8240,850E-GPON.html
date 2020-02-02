@@ -1,0 +1,75 @@
+﻿<html>
+<head>
+<title>8240,850E校园网脚本-GPON</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  设备名 ${sysname}  SN ${auth}    ONT-ID  0/${epon}/${ont0}:${ont1}  <br/>
+	  外层VLAN ${vlan3}  外层vlan QINQ上行口 0/${uplink0} ${uplink1}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT外层VLAN及粗流配置<br/>
+		<br/>
+		vlan ${vlan3} smart<br/>
+		vlan attrib ${vlan3} q-in-q <br/> 
+		port vlan ${vlan3} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont all multi-service user-vlan 3001 to 3950 <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+    interface  gpon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} sn-auth  ${auth} omci ont-lineprofile-id 500 ont-srvprofile-id 84 desc ${sysname}<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  1 vlan 51<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  2 vlan 52<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  3 vlan 53<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} ${ont1} eth  4 vlan 54<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    service-port vlan ${vlan3} gpon 0/${epon}/${ont0} ont ${ont1} gemport 1 multi-service user-vlan 51 tag-transform  translate-and-add inner-vlan ${ont1+3801} rx-cttr 6 tx-cttr 6<br/>
+		<br/>
+		service-port vlan ${vlan3} gpon 0/${epon}/${ont0} ont ${ont1} gemport 1 multi-service user-vlan 52 tag-transform  translate-and-add inner-vlan ${ont1+3801} rx-cttr 6 tx-cttr 6<br/>
+		<br/>
+    service-port vlan ${vlan3} gpon 0/${epon}/${ont0} ont ${ont1} gemport 1 multi-service user-vlan 53 tag-transform  translate-and-add inner-vlan ${ont1+3801} rx-cttr 6 tx-cttr 6<br/>
+		<br/>
+    service-port vlan ${vlan3} gpon 0/${epon}/${ont0} ont ${ont1} gemport 1 multi-service user-vlan 54 tag-transform  translate-and-add inner-vlan ${ont1+3801} rx-cttr 6 tx-cttr 6<br/>
+		<br/>
+		<br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

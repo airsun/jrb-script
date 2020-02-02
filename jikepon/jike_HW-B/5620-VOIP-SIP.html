@@ -1,0 +1,486 @@
+﻿<html>
+<head>
+<title>5620语音脚本 - SIP</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=1>
+<body>
+<p id="template" style="display:none" >
+	  语音VLAN ${vlan} 语音IP ${ip}  语音网关 ${gatway} 
+	  <br/>
+	  <br/>
+	  MA5620语音端口数 ${port}    <br/>
+	  <br/>
+	  0/2/1号码${no.1} 密码 ${pass.1}  0/2/2号码${no.2} 密码 ${pass.2}  0/2/3号码${no3} 密码 ${pass3} <br/>
+	  <br/>
+	  0/2/4号码${no4} 密码 ${pass4} 0/2/5号码${no5} 密码 ${pass5} 0/2/6号码${no6} 密码 ${pass6} <br/>
+	  <br/>
+	  0/2/7号码${no7} 密码 ${pass7} 0/2/8号码${no8} 密码 ${pass8} 0/2/9号码${no9} 密码 ${pass9} <br/>
+		<br/>
+		0/2/10号码${no10} 密码 ${pass10} 0/2/11号码${no11} 密码 ${pass11} 0/2/12号码${no12} 密码 ${pass12} <br/>
+		<br/>
+		0/2/13号码${no13} 密码 ${pass13} 0/2/14号码${no14} 密码 ${pass14} 0/2/15号码${no15} 密码 ${pass15} <br/>
+		<br/>
+		0/2/16号码${no16} 密码 ${pass16} 0/2/17号码${no17} 密码 ${pass17} 0/2/18号码${no18} 密码 ${pass18} <br/>
+		<br/>
+		0/2/19号码${no19} 密码 ${pass19} 0/2/20号码${no20} 密码 ${pass20} 0/2/21号码${no21} 密码 ${pass21} <br/>
+		<br/>
+		0/2/22号码${no22} 密码 ${pass22} 0/2/23号码${no23} 密码 ${pass23} 0/2/24号码${no24} 密码 ${pass24} <br/>
+		<br/>
+		添加语音用户时，只粘贴需要开通语音端口的脚本，没开通语音的端口不要添加。<br/>
+    <br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************<br/>
+		<br/>
+		<br/>
+		protocol support sip<br/>
+    y<br/>
+    <br/>
+    <br/>
+    save<br/>
+    <br/>
+    <br/>
+		<br/>
+		reboot system<br/>
+    y<br/>
+    <br/>
+    quit<br/>
+		<br/>
+    quit<br/>
+    y<br/>
+		<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    vlan ${vlan} smart <br/>
+    <br/>
+    port vlan ${vlan} 0/0 1<br/>
+    <br/>
+    port vlan ${vlan} 0/0 2<br/>
+    <br/>
+    interface vlanif ${vlan}<br/>
+    <br/>
+    ip address  ${ip} 255.255.255.0<br/>
+    <br/>
+    quit <br/>
+    <br/>
+    ip route-static 211.143.228.0  255.255.255.0  ${gatway}<br/>
+    <br/>
+    <br/>
+    dns server 112.4.12.244<br/>
+    <br/>
+    dns resolve<br/>
+    <br/>
+    voip<br/>
+    <br/>
+    ip address media   ${ip}  ${gatway}<br/>
+    <br/>
+    ip address signaling   ${ip}<br/>
+    <br/>
+    qos vlan media  ${ip} priority 4<br/>
+    <br/>
+    qos vlan signaling  ${ip} priority 4<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    interface sip 0<br/>
+    y<br/>
+    <br/>
+    <br/>
+    if-sip attribute basic media-ip ${ip} signal-ip ${ip} signal-port 5060 home-domain ims.js.chinamobile.com<br/>
+    <br/>
+    if-sip attribute basic primary-proxy-domain sbc.chinamobile.com proxy-addr-mode DNS-A<br/>
+    <br/>
+    if-sip attribute basic sipprofile-index 0<br/>
+    <br/>
+    sipprofile delete codec-pri all<br/>
+    <br/>
+    sipprofile add codec-pri 0 8 20<br/>
+    <br/>
+    sipprofile modify syspara 3 2<br/>
+    <br/>
+    sipprofile modify syspara 8 1200<br/>
+    <br/>
+    sipprofile modify syspara 15 1<br/>
+    <br/>
+    sipprofile modify syspara 21 0<br/>
+    <br/>
+    sipprofile modify syspara 49 1<br/>
+    <br/>
+    sipprofile modify syspara 57 0<br/>
+    <br/>
+    sipprofile modify syspara 59 1<br/>
+    <br/>
+    sipprofile modify syspara 61 1<br/>
+    <br/>
+    sipprofile modify syspara 69 1<br/>
+    <br/>
+    sipprofile modify syspara 72 2<br/>
+    <br/>
+    sipprofile modify syspara 74 1<br/>
+    <br/>
+    sipprofile modify syspara 134 1<br/>
+    <br/>
+    sipprofile modify syspara 147 0<br/>
+    <br/>
+    sipprofile modify syspara 152 1<br/>
+    <br/>
+    sipprofile modify syspara 159 1<br/>
+    <br/>
+    sipprofile modify syspara 174 1<br/>
+    <br/>
+    sipprofile modify syspara 186 3<br/>
+    <br/>
+    sipprofile modify strpara 3 0<br/>
+    <br/>
+    sipprofile modify strpara 4 00<br/>
+    <br/>
+    sipprofile modify strpara 5 86<br/>
+    <br/>
+    sipprofile modify strpara 6 510<br/>
+    <br/>
+    sipprofile modify strpara 15 1<br/>
+    <br/>
+    sipprofile modify strpara 21 0<br/>
+    <br/>
+    sipprofile modify srv-pri 0 8<br/>
+    <br/>
+    sipprofile modify srv-pri 1 4<br/>
+    <br/>
+    sipprofile modify srv-pri 2 5<br/>
+    <br/>
+    sipprofile modify srv-pri 3 3<br/>
+    <br/>
+    sipprofile modify srv-pri 4 2<br/>
+    <br/>
+    sipprofile modify srv-pri 5 0<br/>
+    <br/>
+    sipprofile modify srv-pri 6 1<br/>
+    <br/>
+    sipprofile modify srv-pri 7 6<br/>
+    <br/>
+    sipprofile modify srv-pri 8 7<br/>
+    <br/>
+    reset<br/>
+    y<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    pstnport<br/>
+    <br/>
+    pstnport attribute batset 0/2/1  0/2/${port}  polarity-reverse-mode soft-polarity-reverse<br/>
+    <br/>
+    <br/>
+    quit<br/>
+    <br/>
+    esl user <br/>
+    <br/>
+    sippstnuser add 0/2/1 0 telno 86519${no.1}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/1 telno  86519${no.1} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/1 telno 86519${no.1}<br/>
+    <br/>
+    +86519${no.1}<br/>  
+    ${pass.1}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/2 0 telno 86519${no.2}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/2 telno  86519${no.2} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/2 telno 86519${no.2}<br/>
+    <br/>
+    +86519${no.2}<br/>  
+    ${pass.2}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/3 0 telno 86519${no3}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/3 telno  86519${no3} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/3 telno 86519${no3}<br/>
+    <br/>
+    +86519${no3}<br/>  
+    ${pass3}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/4 0 telno 86519${no4}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/4 telno  86519${no4} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/4 telno 86519${no4}<br/>
+    <br/>
+    +86519${no4}<br/>  
+    ${pass4}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/5 0 telno 86519${no5}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/5 telno  86519${no5} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/5 telno 86519${no5}<br/>
+    <br/>
+    +86519${no5}<br/>  
+    ${pass5}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/6 0 telno 86519${no6}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/6 telno  86519${no6} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/6 telno 86519${no6}<br/>
+    <br/>
+    +86519${no6}<br/>  
+    ${pass6}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/7 0 telno 86519${no7}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/7 telno  86519${no7} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/7 telno 86519${no7}<br/>
+    <br/>
+    +86519${no7}<br/>  
+    ${pass7}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/8 0 telno 86519${no8}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/8 telno  86519${no8} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/8 telno 86519${no8}<br/>
+    <br/>
+    +86519${no8}<br/>  
+    ${pass8}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/9 0 telno 86519${no9}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/9 telno  86519${no9} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/9 telno 86519${no9}<br/>
+    <br/>
+    +86519${no9}<br/>  
+    ${pass9}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/10 0 telno 86519${no10}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/10 telno  86519${no10} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/10 telno 86519${no10}<br/>
+    <br/>
+    +86519${no10}<br/>  
+    ${pass10}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/11 0 telno 86519${no11}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/11 telno  86519${no11} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/11 telno 86519${no11}<br/>
+    <br/>
+    +86519${no11}<br/>  
+    ${pass11}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/12 0 telno 86519${no12}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/12 telno  86519${no12} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/12 telno 86519${no12}<br/>
+    <br/>
+    +86519${no12}<br/>  
+    ${pass12}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/13 0 telno 86519${no13}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/13 telno  86519${no13} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/13 telno 86519${no13}<br/>
+    <br/>
+    +86519${no13}<br/>  
+    ${pass13}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/14 0 telno 86519${no14}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/14 telno  86519${no14} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/14 telno 86519${no14}<br/>
+    <br/>
+    +86519${no14}<br/>  
+    ${pass14}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/15 0 telno 86519${no15}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/15 telno  86519${no15} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/15 telno 86519${no15}<br/>
+    <br/>
+    +86519${no15}<br/>  
+    ${pass15}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/16 0 telno 86519${no16}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/16 telno  86519${no16} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/16 telno 86519${no16}<br/>
+    <br/>
+    +86519${no16}<br/>  
+    ${pass16}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/17 0 telno 86519${no17}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/17 telno  86519${no17} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/17 telno 86519${no17}<br/>
+    <br/>
+    +86519${no17}<br/>  
+    ${pass17}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/18 0 telno 86519${no18}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/18 telno  86519${no18} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/18 telno 86519${no18}<br/>
+    <br/>
+    +86519${no18}<br/>  
+    ${pass18}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/19 0 telno 86519${no19}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/19 telno  86519${no19} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/19 telno 86519${no19}<br/>
+    <br/>
+    +86519${no19}<br/>  
+    ${pass19}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/20 0 telno 86519${no20}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/20 telno  86519${no20} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/20 telno 86519${no20}<br/>
+    <br/>
+    +86519${no20}<br/>  
+    ${pass20}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/21 0 telno 86519${no21}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/21 telno  86519${no21} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/21 telno 86519${no21}<br/>
+    <br/>
+    +86519${no21}<br/>  
+    ${pass21}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/22 0 telno 86519${no22}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/22 telno  86519${no22} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/22 telno 86519${no22}<br/>
+    <br/>
+    +86519${no22}<br/>  
+    ${pass22}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/23 0 telno 86519${no23}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/23 telno  86519${no23} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/23 telno 86519${no23}<br/>
+    <br/>
+    +86519${no23}<br/>  
+    ${pass23}<br/>
+    <br/>
+    <br/>
+    sippstnuser add 0/2/24 0 telno 86519${no24}<br/>
+    <br/>
+    sippstnuser  rightflag set  0/2/24 telno  86519${no24} cw  disable<br/>
+    <br/>
+    sippstnuser auth set 0/2/24 telno 86519${no24}<br/>
+    <br/>
+    +86519${no24}<br/>  
+    ${pass24}<br/>
+    <br/>
+    <br/>
+    quit<br/>
+		<br/>
+		<br/>
+		interface sip 0<br/>
+		reset<br/>
+		y<br/>
+		<br/>
+		quit<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		<br/>
+		MA5620 SIP版本升级补丁<br/>
+    <br/>
+		<br/>
+		ftp set<br/>
+    123<br/>
+    123<br/>
+    <br/>
+    load  patch  ftp  211.103.11.42  MA562X-R308/HP5113<br/>
+    <br/>
+    <br/>
+		<br/>
+		display progress load<br/>
+		<br/>
+		<br/>
+		<br/>
+    reboot system<br/>
+    y<br/>
+		<br/>
+    quit<br/>
+		<br/>
+    quit<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

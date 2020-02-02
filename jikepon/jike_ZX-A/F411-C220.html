@@ -1,0 +1,79 @@
+﻿<html>
+<head>
+<title>C220-F411脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  C220 F411 FTTH 配置<br/>
+	  <br/>
+	  MAC ${auth}    ONT-ID  0/${epon}/${ont0}:${ont1}  <br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		C220 业务单板槽位 1-6 外层vlan-smart-qinq配置<br/>
+		<br/>
+		interface epon-olt_0/${epon}/${ont0} <br/>
+    vlan-smart-qinq enable<br/>
+		exit<br/>
+		vlan-smart-qinq ingress-port epon-olt_0/${epon}/${ont0} cvlan 3001 to 3950 svlan ${(epon-1)*4+3500+ont0}<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		C220 业务单板槽位 9-6 外层vlan-smart-qinq配置<br/>
+		<br/>
+		interface epon-olt_0/${epon}/${ont0} <br/>
+    vlan-smart-qinq enable<br/>
+		exit<br/>
+		vlan-smart-qinq ingress-port epon-olt_0/${epon}/${ont0} cvlan 3001 to 3950 svlan ${(epon-3)*4+3500+ont0}<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		OLT注册ONU及FTTH业务配置<br/>
+		<br/>
+    interface epon-olt_0/${epon}/${ont0} <br/>
+    <br/>
+    onu ${ont1}  type ZTE-F411 mac  ${auth}  <br/>
+    <br/>
+    exit<br/>
+    <br/>
+    interface epon-onu_0/${epon}/${ont0}:${ont1}<br/>
+    admin enable<br/>
+		property description $$ <br/>
+		sla-profile 30M vport 1<br/>
+    encrypt direction downstream  disable vport 1<br/>
+    switchport mode hybrid vport 1<br/>
+    switchport vlan 4015 tag vport 1<br/>
+    exit<br/>
+    <br/>
+    pon-onu-mng epon-onu_0/${epon}/${ont0}:${ont1}<br/>
+    auto-config<br/>
+    vlan port eth_0/1 mode translation def-vlan ${3800+ont1}  def-prio 0 vlan-list 3951.5:3951.5,1031.4:1031.4,4015.6:4015.6<br/>
+    <br/>
+    exit<br/>
+    <br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

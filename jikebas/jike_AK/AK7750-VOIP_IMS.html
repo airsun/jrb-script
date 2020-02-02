@@ -1,0 +1,50 @@
+﻿
+<html>
+	<head>
+	<title>AK7750-VOIP_IMS脚本</title>
+	<script type="text/javascript" src="../../script.js"></script>
+	<script type="text/javascript" src="../../display.js"></script>
+	<script type="text/javascript">
+	  $j = jQuery.noConflict();
+	</script>
+	</head>
+	<body>
+	<p id="template" style="display:none">
+		  <br/>
+		  业务描述${des}  lag-ID ${lag} 内层vlan ${cvlan} IMS-VOIP地址 ${IP}  <br/>
+		  <br/>
+			<span id="s_t" style="display:none; font-size:18px;">
+			******************************************************************************************************************
+			<br/>
+			config service<br/>
+			vprn 1000000280<br/>
+			subscriber-interface "IMS_static_VOIP_IP_POOL"<br/>
+			group-interface "sap lag-${lag}:4013" create<br/>
+			sap lag-${lag}:4013.${cvlan} create<br/>
+			description ${des}_IMS_VOIP
+			static-host ip ${IP} create<br/>
+			no shutdown<br/>
+			exit<br/>
+			exit<br/>
+			exit<br/>
+			admin save<br/>
+			<br/>
+			******************************************************************************************************************<br/>
+			<br/>
+		</span>
+	</p>
+	<form name="form" action="#">
+		<div id="entry_area">
+			<!-- 生成输入区域HTML -->
+			<script type="text/javascript">
+				readyTemplate();
+			</script>
+		</div>
+		<input type="button" value="生成" onclick="generate()" /> 
+		<input type="button" value="刷新" onclick=location.reload()>
+		<div id="output_area">
+			<!-- 生产结果区域 -->
+		</div>
+	</form>
+	</body>
+	</html>

@@ -1,0 +1,63 @@
+﻿<html>
+
+<head>
+  <title>ME60 共享地址专线业务脚本</title>
+  <script type="text/javascript" src="../../script.js"></script>
+  <script type="text/javascript" src="../../display.js"></script>
+  <script type="text/javascript">
+    $j = jQuery.noConflict();
+  </script>
+</head>
+
+<body>
+  <p id="template" style="display:none">
+    <br />
+    业务描述${des} Eth-Trunk${trunk} 外层VLAN ${svlan} 内层VLAN ${cvlan} <br />
+    <br />
+    起始IP地址${IPs} 结束IP地址${IPe} 地址池网关${gw} 带宽${qos}M <br />
+    <br />
+    <span id="s_t" style="display:none; font-size:18px;">
+      ******************************************************************************************************************
+      <br />
+      【业务开通】<br />
+      system-view <br />
+      interface Eth-Trunk ${trunk}.${svlan}${cvlan}<br />
+      description ${des}_CMNET_${qos}M<br />
+      trust upstream default<br />
+      trust 8021p<br />
+      user-vlan ${cvlan} qinq ${svlan}<br />
+      qos-profile car${qos}m inbound identifier none<br />
+      qos-profile car${qos}m outbound identifier none<br />
+      <br />
+      bas<br />
+      access-type layer2-subscriber default-domain authentication static<br />
+      authentication-method bind<br />
+      quit<br />
+      quit<br />
+      <br />
+      static-user ${IPs} ${IPe} gateway ${gw} interface Eth-Trunk${trunk}.${svlan}${cvlan} vlan ${cvlan} qinq
+      ${svlan} domain-name static detect<br />
+      quit<br />
+      save<br />
+      y<br />
+      <br />
+      ******************************************************************************************************************
+      <br />
+    </span>
+  </p>
+  <form name="form" action="#">
+    <div id="entry_area">
+      <!-- 生成输入区域HTML -->
+      <script type="text/javascript">
+        readyTemplate();
+      </script>
+    </div>
+    <input type="button" value="生成" onclick="generate()" />
+    <input type="button" value="刷新" onclick=location.reload()>
+    <div id="output_area">
+      <!-- 生产结果区域 -->
+    </div>
+  </form>
+</body>
+
+</html>

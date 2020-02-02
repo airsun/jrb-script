@@ -1,0 +1,250 @@
+﻿<html>
+<head>
+<title>一网通宽带EPON-B类ONU脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	
+	  设备名 ${sysname}  MAC ${auth}    ONT-ID  0/${epon}/${ont0}:${ont1}  <br/>
+	  <br/>
+	  管理IP ${ip}  管理网关 ${gateway}  过滤MAC ${mac} <br/>
+	  <br/>
+		OLT上行端口 0/${uplink0} ${uplink1}<br/>
+		<br/>
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT宽带VLAN和粗流配置<br/>
+		<br/>
+		vlan ${(epon-1)*16+31+ont0} smart<br/>
+		vlan attrib ${(epon-1)*16+31+ont0} q-in-q <br/> 
+		port vlan ${(epon-1)*16+31+ont0} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		service-port vlan ${(epon-1)*16+31+ont0} epon 0/${epon}/${ont0} ont all multi-service user-vlan 159 to 1030 inbound traffic-table index 20 outbound traffic-table index 20 <br/>
+		<br/>
+		service-port vlan ${(epon-1)*16+1031+ont0} epon 0/${epon}/${ont0} ont all multi-service user-vlan 1031 to 1031 inbound traffic-table index 20 outbound traffic-table index 20 <br/>
+		<br/>
+		service-port vlan ${(epon-1)*16+1031+ont0} epon 0/${epon}/${ont0} ont all multi-service user-vlan 2030 to 2030 inbound traffic-table index 20 outbound traffic-table index 20 <br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT注册ONU配置<br/>
+		<br/>
+		interface epon 0/${epon}<br/>
+		ont add  ${ont0} ${ont1}  mac-auth  ${auth}  snmp ont-lineprofile-name JTEFTTBUnlimited500M  desc ${sysname}<br/>
+		ont snmp-profile  ${ont0} ${ont1}  profile-id  3 <br/>
+		ont ipconfig  ${ont0} ${ont1}  ip-address   ${ip}   mask 255.255.255.0  gateway  ${gateway}  manage-vlan 4020<br/>
+		<br/>
+		quit<br/>
+		<br/>
+		service-port vlan 4020 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4020 inbound traffic-table index 20 outbound traffic-table index 20<br/>
+		<br/>
+		service-port vlan 4015 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4015 inbound traffic-table index 16 outbound traffic-table index 16<br/>
+		<br/>
+		service-port vlan 3951 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 3951 inbound traffic-table index 15 outbound traffic-table index 15<br/>
+		<br/>
+		service-port vlan 4032 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4032 inbound traffic-table index 14 outbound traffic-table index 14<br/>
+		<br/>
+		service-port vlan 4031 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4031 inbound traffic-table index 10 outbound traffic-table index 10<br/>
+		<br/>
+		service-port vlan 3033 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 3033 inbound traffic-table index 12 outbound traffic-table index 12<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		ONU宽带业务配置<br/>
+		<br/>
+		telnet ${ip}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>
+		sysname ${sysname}<br/>
+		time @{time}<br/>
+		<br/>
+		ntp-service  unicast-server  211.103.11.147<br/>
+    <br/>
+    <br/>
+    queue-scheduler wrr 20 10 20 10 40 0 0 0<br/>
+    <br/>
+    traffic table ip index 10 name "putongkuandai" cir off priority user-cos 0 priority-policy tag-In-Package<br/>
+    <br/>
+    traffic table ip index 12 name "dakehu" cir off priority 2 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 14 name "shipin" cir off priority 4 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 15 name "yuyin" cir off priority 5 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 16 name "wangluokongzhi" cir off priority 6 priority-policy tag-in-package<br/>
+    <br/>
+		board confirm 0<br/>
+		<br/>
+		<br/>
+		autos  time on<br/>
+		autos time 13:00:00<br/>
+		security mac-filter source ${mac} <br/>
+		<br/>
+		<br/>
+		<br/>
+		vlan ${(ont1*24)+159} to ${(ont1*24)+159+23}  mux<br/>
+		y<br/>
+		<br/>
+		port vlan  ${(ont1*24)+159} to ${(ont1*24)+159+23}  0/0  0 <br/>
+		y<br/>
+		<br/>
+		port vlan  ${(ont1*24)+159} to ${(ont1*24)+159+23}  0/0  1 <br/>
+		y<br/>
+		<br/>
+		port vlan  ${(ont1*24)+159} to ${(ont1*24)+159+23}  0/0  2 <br/>
+		y<br/>
+		<br/>
+		<br/>
+		multi-service-port from-vlan ${(ont1*24)+159} board 1 user-vlan untagged  rx-cttr 10 tx-cttr 10 <br/>
+		y<br/>
+		<br/>
+		multi-service-port from-vlan ${(ont1*24)+159+8} board 2 user-vlan untagged  rx-cttr 10 tx-cttr 10 <br/>
+		y<br/>
+		<br/>
+		multi-service-port from-vlan ${(ont1*24)+159+16} board 4 user-vlan untagged  rx-cttr 10 tx-cttr 10 <br/>
+		y<br/>
+		<br/>
+    <br/>
+    <br/>
+    <br/>
+    vlan 4015 smart <br/>
+    <br/>
+    vlan 3951 smart <br/>
+    <br/>
+    vlan 1031 smart <br/>
+    <br/>
+    vlan 4032 smart <br/>
+    <br/>
+    vlan 4031 smart <br/>
+    <br/>
+    vlan 3033 smart <br/>
+    <br/>
+    vlan 2030 smart <br/>
+    <br/>
+    port vlan 4015 0/0 0 <br/>
+    <br/>
+    port vlan 4015 0/0 1 <br/>
+    <br/>
+    port vlan 4015 0/0 2 <br/>
+    <br/>
+    port vlan 3951 0/0 0 <br/>
+    <br/>
+    port vlan 3951 0/0 1 <br/>
+    <br/>
+    port vlan 3951 0/0 2 <br/>
+    <br/>
+    port vlan 1031 0/0 0 <br/>
+    <br/>
+    port vlan 1031 0/0 1 <br/>
+    <br/>
+    port vlan 1031 0/0 2 <br/>
+    <br/>
+    port vlan 4032 0/0 0 <br/>
+    <br/>
+    port vlan 4032 0/0 1 <br/>
+    <br/>
+    port vlan 4032 0/0 2 <br/>
+    <br/>
+    port vlan 4031 0/0 0 <br/>
+    <br/>
+    port vlan 4031 0/0 1 <br/>
+    <br/>
+    port vlan 4031 0/0 2 <br/>
+    <br/>
+    port vlan 3033 0/0 0 <br/>
+    <br/>
+    port vlan 3033 0/0 1 <br/>
+    <br/>
+    port vlan 3033 0/0 2 <br/>
+    <br/>
+    port vlan 2030 0/0 0 <br/>
+    <br/>
+    port vlan 2030 0/0 1 <br/>
+    <br/>
+    port vlan 2030 0/0 2 <br/>
+    <br/>
+    <br/>
+		multi-service-port  vlan  4015  board 1-4 user-vlan 4015 rx-cttr 16 tx-cttr 16 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  3951  board 1-4 user-vlan 3951 rx-cttr 15 tx-cttr 15 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  1031  board 1-4 user-vlan 1031 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  4032  board 1-4 user-vlan 4032 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  4031  board 1-4 user-vlan 4031 rx-cttr 10 tx-cttr 10 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  3033  board 1-4 user-vlan 3033 rx-cttr 12 tx-cttr 12 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  2030  board 1-4 user-vlan 2030 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+    <br/>
+		<br/>
+		multi-service-port  vlan  4015  board 1 user-vlan 4015 rx-cttr 16 tx-cttr 16 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  3951  board 1 user-vlan 3951 rx-cttr 15 tx-cttr 15 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  1031  board 1 user-vlan 1031 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  4032  board 1 user-vlan 4032 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  4031  board 1 user-vlan 4031 rx-cttr 10 tx-cttr 10 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  3033  board 1 user-vlan 3033 rx-cttr 12 tx-cttr 12 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  2030  board 1 user-vlan 2030 rx-cttr 14 tx-cttr 14 <br/>
+		y<br/>
+    <br/>
+    <br/>
+    <br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新"onclick="location.reload()">
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

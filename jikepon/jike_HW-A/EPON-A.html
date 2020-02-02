@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>集团EPON-A类ONU脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  设备描述 ${sysname}  MAC ${auth}   ONT-ID  0/${epon}/${ont0}:${ont1}  <br/>
+	  <br/>
+	  SFU-ONU端口 ${eth} 默认填写单个业务端口，所有端口填写1-4 ；HGU设备不用填写<br/>
+	  <br/>
+	  双层VLAN ${vlan1}.${vlan2} 单层VLAN ${vlan3} <br/>
+		<br/>
+		OLT上行端口 0/${uplink0} ${uplink1}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT双层VLAN配置<br/>
+		<br/>
+		vlan ${vlan1} smart<br/>
+		vlan attrib ${vlan1} q-in-q <br/> 
+		port vlan ${vlan1} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		OLT单层VLAN配置<br/>
+		<br/>
+		vlan ${vlan3} smart<br/><br/> 
+		port vlan ${vlan3} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		SFU-ONU双层VLAN配置<br/>
+		<br/>
+    interface  epon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} mac-auth  ${auth} oam ont-lineprofile-name JTEUnlimited500M ont-srvprofile-name FTTH desc ${sysname}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    service-port vlan ${vlan1} port 0/${epon}/${ont0} ont ${ont1}  eth ${eth}  multi-service user-vlan untagged tag-transform add-double inner-vlan ${vlan2} inbound traffic-table index 7 outbound traffic-table index 7<br/>
+		<br/>
+    service-port vlan 4015 port 0/${epon}/${ont0} ont ${ont1}  multi-service user-vlan 4015 inbound traffic-table index 26 outbound traffic-table index 26 <br/>
+		<br/>
+    service-port vlan 3951 port 0/${epon}/${ont0} ont ${ont1}  multi-service user-vlan 3951 inbound traffic-table index 25 outbound traffic-table index 25 <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		SFU-ONU单层VLAN配置<br/>
+		<br/>
+    interface  epon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} mac-auth  ${auth} oam ont-lineprofile-name JTEUnlimited500M ont-srvprofile-name FTTH desc ${sysname}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    service-port vlan ${vlan3} port 0/${epon}/${ont0} ont ${ont1}  eth ${eth}  multi-service user-vlan untagged inbound traffic-table index 7 outbound traffic-table index 7<br/>
+		<br/>
+    service-port vlan 4015 port 0/${epon}/${ont0} ont ${ont1}  multi-service user-vlan 4015 inbound traffic-table index 26 outbound traffic-table index 26 <br/>
+		<br/>
+    service-port vlan 3951 port 0/${epon}/${ont0} ont ${ont1}  multi-service user-vlan 3951 inbound traffic-table index 25 outbound traffic-table index 25 <br/>
+		<br/>
+		<br/>
+		<br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

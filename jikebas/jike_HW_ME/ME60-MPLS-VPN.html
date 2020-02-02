@@ -1,0 +1,81 @@
+﻿<html>
+
+<head>
+  <title>ME60-MPLS-VPN数据专线业务脚本</title>
+  <script type="text/javascript" src="../../script.js"></script>
+  <script type="text/javascript" src="../../display.js"></script>
+  <script type="text/javascript">
+    $j = jQuery.noConflict();
+  </script>
+</head>
+
+<body>
+  <p id="template" style="display:none">
+    VPN实例名 ${vprn} RD ${rd} RT ${rt} <br />
+    <br />
+    Z端业务描述 ${des} Eth-Trunk端口 ${etrunk} control-vid（2531-2780）${vid}<br />
+    <br />
+    外层VLAN ${svlan} 内层VLAN ${cvlan}<br />
+    <br />
+    Z端IP地址 ${IP} 掩码位数${sub} 带宽${qos}M <br />
+    <br />
+    <span id="s_t" style="display:none; font-size:18px;">
+      ******************************************************************************************************************<br />
+      <br />
+      【创建MPLS-VPN实例配置】<br />
+      system-view<br />
+      ip vpn-instance ${vprn}<br />
+      description To_${vprn}<br />
+      route-distinguisher 64800:${rd}<br />
+      vpn-target 64800:${rt} export-extcommunity<br />
+      vpn-target 64800:${rt} import-extcommunity<br />
+      quit<br />
+      quit<br />
+      <br />
+      bgp 64800<br />
+      ipv4-family vpn-instance ${vprn}<br />
+      import-route direct<br />
+      import-route static<br />
+      quit<br />
+      quit<br />
+      <br />
+      ******************************************************************************************************************<br />
+      <br />
+      【已有VPN实例业务配置】<br />
+      <br />
+      interface Eth-Trunk${etrunk}.${svlan}${cvlan}<br />
+      description ${des}_${qos}M<br />
+      control-vid ${vid} qinq-termination<br />
+      qinq termination pe-vid ${svlan} ce-vid ${cvlan}<br />
+      ip binding vpn-instance ${vprn}<br />
+      ip address ${IP} ${sub}<br />
+      arp broadcast enable<br />
+      statistic enable<br />
+      trust upstream default<br />
+      qos-profile car${qos}m inbound<br />
+      qos-profile car${qos}m outbound<br />
+      quit<br />
+      quit<br />
+      save<br />
+      y<br />
+      <br />
+      <br />
+      <br />
+    </span>
+  </p>
+  <form name="form" action="#">
+    <div id="entry_area">
+      <!-- 生成输入区域HTML -->
+      <script type="text/javascript">
+        readyTemplate();
+      </script>
+    </div>
+    <input type="button" value="生成" onclick="generate()" />
+    <input type="button" value="刷新" onclick=location.reload()>
+    <div id="output_area">
+      <!-- 生产结果区域 -->
+    </div>
+  </form>
+</body>
+
+</html>

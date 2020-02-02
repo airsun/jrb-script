@@ -1,0 +1,271 @@
+﻿<html>
+<head>
+<title>5612-E1脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	
+	  OLT参数<br/>
+	  <br/>
+	  设备名 ${sysname}  MAC ${auth}    ONT-ID  0/${epon}${ont0}${ont1} <br/>
+		<br/>
+	  管理IP ${ip0}  管理网关 ${gateway0}   管理VLAN ${vlan0}   <br/>
+	  <br/>
+	  TOPA板卡槽位 ${board0} TOPA地址  ${ip3} TOPA的MAC地址  ${MAC1} <br/>
+	  VC12通道 ${port0}  OLT-UDP-ID ${port1}<br/>
+	  <br/>
+	  <br/>
+	  ONU参数<br/>
+	  <br/>
+	  专线VLAN ${vlan1} 业务IP ${ip1} 业务网关 ${gateway1} 业务MAC ${MAC0} 过滤MAC ${mac} <br/>
+	  <br/>
+	  ONU环回地址 ${ip2} ONU-UDP-ID  ${port2} tunnel编号${tunnel}<br/>	
+		<br/>
+		E1板卡槽位 ${board1} E1-ID从0开始 ${port3}  TDM-ID从0开始 ${port5}   PW-ID从1开始 ${port4}<br/>
+		<br/>
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT注册ONU配置<br/>
+		<br/>
+		<br/>
+		interface epon 0/${epon}<br/>
+    <br/>
+    ont add  ${ont0} ${ont1}  mac-auth  ${auth}  snmp ont-lineprofile-id 300  desc  ${sysname} <br/>
+    <br/>
+    ont snmp-profile  ${ont0} ${ont1}  profile-id  3 <br/>
+    <br/>
+    ont ipconfig  ${ont0} ${ont1}  ip-address  ${ip0} mask 255.255.255.0  gateway   ${gateway0}  manage-vlan ${vlan0}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    service-port vlan ${vlan0} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan0}<br/>
+    <br/>
+    <br/>
+    service-port vlan ${vlan1} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan1}<br/>
+    <br/>
+    <br/>
+    <br/>
+    cesop-connect tdm 0/${board0}/0 vc12 ${port0} vlan ${vlan1} local-udp ${port1} remote-mac ${MAC0} remote-ip ${ip2} remote-udp ${port2} <br/>
+    <br/>
+    <br/>
+    <br/>
+    clock source 0 0/${board0}/0<br/>
+    <br/>
+    clock priority 0<br/>
+    <br/>
+    interface top-stm1 0/${board0}<br/>
+    <br/>
+    clock-source 0 vC12 0<br/>
+    <br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+    ONU开通E1业务配置<br/>
+    <br/>
+    telnet ${ip0}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>  
+    sysname ${sysname}
+    <br/>
+    time @{time} <br/>
+    <br/>
+		ntp-service  unicast-server  211.103.11.147<br/>
+    <br/>   
+    <br/>
+    <br/>
+    autos  time on <br/>
+    autos time 13:00:00  <br/>
+    <br/>           
+    <br/>
+    security mac-filter source ${mac} <br/>
+    <br/>
+    <br/>
+    interface loopback 0 <br/>
+    <br/>
+    ip address ${ip2} 32 <br/>
+    <br/>
+    quit
+    <br/>
+    <br/>
+    mpls lsr-id ${ip2}
+    <br/>
+    <br/>
+    <br/>
+    mpls<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    mpls l2vpn
+    <br/>
+    <br/>
+    vlan ${vlan1} smart<br/>
+    <br/>
+    mpls vlan ${vlan1}<br/>
+    <br/>
+    port vlan ${vlan1} 0/0 0 <br/>
+    <br/>
+    interface vlanif ${vlan1} <br/>
+    <br/>
+    ip address ${ip1} 24 <br/>
+    <br/>
+    <br/>
+    mpls<br/>
+    <br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    ip route-static ${ip3} 32 vlanif ${vlan1} ${gateway1} <br/>
+    <br/>
+    <br/>
+    arp ${gateway1} ${MAC1} ${vlan1} 0/0/0
+    <br/>
+    <br/>
+    <br/>
+    interface tunnel ${tunnel}
+    <br/>
+    <br/>
+    tunnel-protocol mpls ip<br/>
+    <br/>
+    <br/>
+    destination ${ip3}<br/>
+    <br/>
+    <br/>mpls ip  commit
+    <br/>
+    <br/>
+    quit
+    <br/>
+    <br/>
+    tunnel-policy ip-policy
+    <br/>
+    <br/>
+    tunnel  select-seq ip load-balance-number 1<br/>
+    <br/>
+    quit
+    <br/>
+    pw-template cbu2olt_satop<br/>
+    <br/>
+    <br/>
+    pw-type tdm satop<br/>
+    <br/>
+    peer-address ${ip3}<br/>
+    <br/>
+    <br/>
+    tdm-load-time satop loadtime 125
+    <br/>
+    <br/>
+    <br/>
+    rtp enable<br/>
+    <br/>
+    <br/>
+    jitter-buffer  buffer-size  2500<br/>
+    <br/>
+    <br/>
+    control-word<br/>
+    <br/>
+    tnl-policy  ip-policy<br/>
+    <br/>
+    <br/>
+    quit<br/>
+    <br/>
+    interface tdm 0/${board1}<br/>
+    <br/>
+    port ${port3} udt acm ${port3}<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    tdm-vcl tdm-vcl-id ${port5} satop 0/${board1}/${port3} <br/>
+    <br/>
+    <br/>
+    pw-ac-binding tdm ${port5}  pw ${port4} pw-template cbu2olt_satop udp ingress-dst-port ${port2} egress-dst-port ${port2}<br/>
+    <br/>
+    <br/>
+    <br/>
+    clock source 0 0/0/0<br/>
+    <br/>
+    <br/>
+    interface tdm 0/${board1}
+    <br/>
+    <br/>
+    adapt-clock-source ${port3} ${port4} <br/>
+    <br/>
+    <br/>
+    quit
+    <br/>
+    <br/>
+    reset pw template cbu2olt_satop
+    <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		ONU升级步骤<br/>
+		<br/>
+		MA5612-V800R308C00升级到V800R308C00SPC508<br/>
+    <br/>
+		<br/>
+		ftp set<br/>
+    123<br/>
+    123<br/>
+    <br/>
+    load  packet  ftp  211.103.11.42  MA5612-R308/MA5612V800R308C00SPC508.bin<br/>
+    y<br/>
+    <br/>
+		<br/>
+		display progress load<br/>
+		<br/>
+		<br/>
+		<br/>
+    reboot system<br/>
+    y<br/>
+		<br/>
+    quit<br/>
+		<br/>
+    quit<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿<html>
+<head>
+<title>集团专线GPON-B类ONU脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  设备描述 ${sysname}  SN ${auth}    ONT-ID  0/${gpon}/${ont0}:${ont1} <br/>
+	  <br/>
+	  管理IP ${ip1}  管理网关 ${ip2}   sysman mac-address ${mac} <br/>
+	  <br/>
+	  双层VLAN ${vlan1}.${vlan2}    单层VLAN ${vlan3} <br/>
+		<br/>
+	  Gem Port ${gemport} 一网通宽带：10 ；互联网和数据专线：12 ；互联网电视：14 ；语音专线：15 ；家庭网关RMS：16  <br/>
+		<br/>
+		OLT上行端口 0/${uplink0} ${uplink1}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT双层VLAN配置<br/>
+		<br/>
+		vlan ${vlan1} smart<br/>
+		vlan attrib ${vlan1} q-in-q <br/> 
+		port vlan ${vlan1} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		OLT单层VLAN配置<br/>
+		<br/>
+		vlan ${vlan3} smart<br/><br/> 
+		port vlan ${vlan3} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		OLT注册ONU配置<br/>
+		<br/>
+    interface  gpon  0/${gpon}<br/>
+    <br/>
+    ont  add  ${ont0} ${ont1} sn-auth  ${auth} snmp ont-lineprofile-name JTGFTTBUnlimited500M desc ${sysname}<br/>
+    <br/>
+    ont snmp-profile ${ont0} ${ont1} profile-id 3<br/>
+    <br/>
+    ont ipconfig ${ont0} ${ont1} static ip-address ${ip1} mask 255.255.255.0 gateway ${ip2} vlan 4020 priority 6<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    <br/>
+    service-port vlan 4020 gpon 0/${gpon}/${ont0} ont ${ont1} gemport 16 multi-service user-vlan 4020 inbound traffic-table index 20 outbound traffic-table index 20<br/>
+		<br/>
+		service-port vlan ${vlan1}${vlan3} gpon 0/${gpon}/${ont0} ont ${ont1} gemport ${gemport} multi-service user-vlan ${vlan2}${vlan3} inbound traffic-table index ${gemport} outbound traffic-table index ${gemport}<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		ONU专线业务配置<br/>
+		<br/>
+		telnet ${ip1}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>
+		sysname ${sysname}<br/>
+		time @{time}<br/>
+		<br/>
+		ntp-service  unicast-server  211.103.11.147<br/>
+    <br/>
+    <br/>
+    queue-scheduler wrr 20 10 20 10 40 0 0 0<br/>
+    <br/>
+    traffic table ip index 10 name "putongkuandai" cir off priority user-cos 0 priority-policy tag-In-Package<br/>
+    <br/>
+    traffic table ip index 12 name "dakehu" cir off priority 2 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 14 name "shipin" cir off priority 4 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 15 name "yuyin" cir off priority 5 priority-policy tag-in-package<br/>
+    <br/>
+    traffic table ip index 16 name "wangluokongzhi" cir off priority 6 priority-policy tag-in-package<br/>
+    <br/>
+		board confirm 0<br/>
+		<br/>
+		<br/>
+		autos  time on<br/>
+		autos time 13:00:00<br/>
+		security mac-filter source ${mac} <br/>
+		<br/>
+		vlan ${vlan2}${vlan3}  smart<br/>
+		<br/>
+		<br/>
+		port vlan  ${vlan2}${vlan3}  0/0  0 <br/>
+		<br/>
+		port vlan  ${vlan2}${vlan3}  0/0  1 <br/>
+		<br/>
+		port vlan  ${vlan2}${vlan3}  0/0  2 <br/>
+		<br/>
+		protocol-8021p-pri ${gemport-10} vlan  ${vlan2}${vlan3}<br/>
+		<br/>
+		multi-service-port  vlan  ${vlan2}${vlan3}  board 1-4 user-vlan untagged rx-cttr ${gemport} tx-cttr ${gemport} <br/>
+		y<br/>
+		<br/>
+		<br/>
+		multi-service-port  vlan  ${vlan2}${vlan3}  board 1 user-vlan untagged rx-cttr ${gemport} tx-cttr ${gemport} <br/>
+		y<br/>
+		<br/>
+		<br/>
+		vlan service-profile profile-id 1 <br/>
+    <br/>
+    <br/>
+    user-bridging enable <br/>
+    <br/>
+    commit<br/>
+    <br/>
+    q<br/>
+    <br/>
+    vlan bind service-profile ${vlan2}${vlan3} profile-id 1 <br/>
+    <br/>
+    <br/>
+		<br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

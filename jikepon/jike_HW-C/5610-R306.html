@@ -1,0 +1,329 @@
+﻿<html>
+<head>
+<title>5610-R306脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	
+	  设备名 ${sysname}  MAC ${auth}    ONT-ID  0/${epon}${ont0}${ont1}  <br/>
+	  管理IP ${ip}  管理网关 ${gateway}   管理VLAN ${vlan0} 过滤MAC ${mac} <br/>
+	  宽带外层VLAN ${vlan4}  宽带内层VLAN ${vlan3} 宽带外层vlan上行口 0/${uplink0} ${uplink1}  <br/>
+	  专线VLAN ${vlan2} 专线VLAN上行口 0/${uplink2} ${uplink3} 语音VLAN ${vlan1} <br/>
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT外层VLAN及粗流配置<br/>
+		<br/>
+		vlan ${vlan4} smart<br/>
+		vlan attrib ${vlan4} q-in-q <br/> 
+		port vlan ${vlan4} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		service-port vlan ${vlan4} epon 0/${epon}/${ont0} ont all multi-service user-vlan 3001 to 3950 <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT注册ONU配置<br/>
+		<br/>
+		interface epon 0/${epon}<br/>
+		ont add  ${ont0} ${ont1}  mac-auth  ${auth}  snmp ont-lineprofile-id 300  desc ${sysname}<br/>
+		ont snmp-profile  ${ont0} ${ont1}  profile-id  3 <br/>
+		ont ipconfig  ${ont0} ${ont1}  ip-address   ${ip}   mask 255.255.255.0  gateway  ${gateway}  manage-vlan ${vlan0}<br/>
+		<br/>
+		quit<br/>
+		service-port vlan ${vlan0} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan0}<br/>
+		<br/>
+		<br/>
+		service-port vlan ${vlan1} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan1}<br/>
+		<br/>
+		<br/>
+		vlan ${vlan2} smart<br/>
+		<br/>
+		port vlan ${vlan2} 0/${uplink2} ${uplink3}<br/>
+		<br/>
+		service-port vlan ${vlan2} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan ${vlan2}<br/>
+		<br/>
+		<br/>
+		service-port vlan 4015 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 4015 inbound traffic-table index 26 outbound traffic-table index 26 <br/>
+		<br/>
+		service-port vlan 3951 epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 3951 inbound traffic-table index 25 outbound traffic-table index 25 <br/>
+		<br/>
+		service-port vlan ${vlan4-500} epon 0/${epon}/${ont0} ont ${ont1} multi-service user-vlan 1031 inbound traffic-table index 24 outbound traffic-table index 24 <br/>
+		<br/>
+		<br/>
+		multi-service-port vlan ${vlan4} ont 0/${epon}/${ont0} ${ont1} user-vlan ${vlan3}-${vlan3+49}<br/>
+		<br/>
+		y<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		ONU驻地网业务配置<br/>
+		<br/>
+		telnet ${ip}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>
+		sysname ${sysname}<br/>
+		time @{time}<br/>
+		<br/>
+    sntp  server  address  211.103.11.147<br/>
+    <br/>
+    sntp  interval  30<br/>
+    <br/>
+    <br/>
+		board confirm 0<br/>
+    <br/>
+    <br/>
+		autos  time on<br/>
+		autos time 13:00:00<br/>
+		security mac-filter source ${mac} <br/>
+		<br/>
+    traffic table ip index 24 name iptv cir off priority 4 priority-policy tag-In-Package <br/>
+    <br/>
+    traffic table ip index 25 name voip cir off priority 5 priority-policy tag-In-Package <br/>
+    <br/>
+    traffic table ip index 26 name management cir off priority 6 priority-policy tag-In-Package <br/>
+    <br/>
+    <br/>
+    vlan 4015 smart <br/>
+    <br/>
+    vlan 3951 smart <br/>
+    <br/>
+    vlan 1031 smart <br/>
+    <br/>
+    port vlan 4015 0/0 1 <br/>
+    <br/>
+    port vlan 3951 0/0 1 <br/>
+    <br/>
+    port vlan 1031 0/0 1 <br/>
+    <br/>
+		multi-service-port  vlan  4015  board 1-4 user-vlan 4015 rx-cttr 26 tx-cttr 26 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  3951  board 1-4 user-vlan 3951 rx-cttr 25 tx-cttr 25 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan  1031  board 1-4 user-vlan 1031 rx-cttr 24 tx-cttr 24 <br/>
+		y<br/>
+		<br/>
+		<br/>
+		vlan ${vlan3} to ${vlan3+49}  mux<br/>
+		y<br/>
+		<br/>
+		port vlan  ${vlan3}  to  ${vlan3+49}    0/0  1 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  from-vlan  ${vlan3}  board 2 user-vlan untagged rx-cttr 6 tx-cttr 6<br/>
+		y<br/>
+		multi-service-port  from-vlan  ${vlan3+16}  board 3 user-vlan untagged rx-cttr 6 tx-cttr 6<br/>
+		y<br/>
+		multi-service-port  from-vlan  ${vlan3+32}  board 4 user-vlan untagged rx-cttr 6 tx-cttr 6<br/>
+		y<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		ONU专线业务配置<br/>
+		<br/>
+		telnet ${ip}<br/>
+		<br/>
+		root<br/>
+		mduadmin<br/>
+		<br/>
+		enable<br/>
+		<br/>
+		config<br/>
+		<br/>
+		sysname ${sysname}<br/>
+		time @{time}<br/>
+		<br/>
+    sntp  server  address  211.103.11.147<br/>
+    <br/>
+    sntp  interval  30<br/>
+    <br/>
+    <br/>
+		board confirm 0<br/>
+		<br/>
+		autos  time on<br/>
+		autos time 13:00:00<br/>
+		security mac-filter source ${mac} <br/>
+		<br/>
+		vlan ${vlan2}  smart<br/>
+		<br/>
+		port vlan  ${vlan2}  0/0  1 <br/>
+		<br/>
+		multi-service-port  vlan  ${vlan2}  board 1-4 user-vlan untagged rx-cttr 6 tx-cttr 6 <br/>
+		y<br/>
+		<br/>
+		<br/>
+		undo isolate port 0/4/0<br/>
+		undo isolate port 0/4/1<br/>
+		undo isolate port 0/4/2<br/>
+		undo isolate port 0/4/3<br/>
+		undo isolate port 0/4/4<br/>
+		undo isolate port 0/4/5<br/>
+		undo isolate port 0/4/6<br/>
+		undo isolate port 0/4/7<br/>
+		undo isolate port 0/4/8<br/>
+		undo isolate port 0/4/9<br/>
+		undo isolate port 0/4/10<br/>
+		undo isolate port 0/4/11<br/>
+		undo isolate port 0/4/12<br/>
+		undo isolate port 0/4/13<br/>
+		undo isolate port 0/4/14<br/>
+		undo isolate port 0/4/15<br/>
+		<br/>
+		<br/>
+		undo isolate port 0/1/0<br/>
+		undo isolate port 0/1/1<br/>
+		undo isolate port 0/1/2<br/>
+		undo isolate port 0/1/3<br/>
+		undo isolate port 0/1/4<br/>
+		undo isolate port 0/1/5<br/>
+		undo isolate port 0/1/6<br/>
+		undo isolate port 0/1/7<br/>
+		undo isolate port 0/1/8<br/>
+		undo isolate port 0/1/9<br/>
+		undo isolate port 0/1/10<br/>
+		undo isolate port 0/1/11<br/>
+		undo isolate port 0/1/12<br/>
+		undo isolate port 0/1/13<br/>
+		undo isolate port 0/1/14<br/>
+		undo isolate port 0/1/15<br/>
+		<br/>
+		<br/>
+		undo isolate port 0/2/0<br/>
+		undo isolate port 0/2/1<br/>
+		undo isolate port 0/2/2<br/>
+		undo isolate port 0/2/3<br/>
+		undo isolate port 0/2/4<br/>
+		undo isolate port 0/2/5<br/>
+		undo isolate port 0/2/6<br/>
+		undo isolate port 0/2/7<br/>
+		undo isolate port 0/2/8<br/>
+		undo isolate port 0/2/9<br/>
+		undo isolate port 0/2/10<br/>
+		undo isolate port 0/2/11<br/>
+		undo isolate port 0/2/12<br/>
+		undo isolate port 0/2/13<br/>
+		undo isolate port 0/2/14<br/>
+		undo isolate port 0/2/15<br/>
+		<br/>
+		<br/>
+		undo isolate port 0/3/0<br/>
+		undo isolate port 0/3/1<br/>
+		undo isolate port 0/3/2<br/>
+		undo isolate port 0/3/3<br/>
+		undo isolate port 0/3/4<br/>
+		undo isolate port 0/3/5<br/>
+		undo isolate port 0/3/6<br/>
+		undo isolate port 0/3/7<br/>
+		undo isolate port 0/3/8<br/>
+		undo isolate port 0/3/9<br/>
+		undo isolate port 0/3/10<br/>
+		undo isolate port 0/3/11<br/>
+		undo isolate port 0/3/12<br/>
+		undo isolate port 0/3/13<br/>
+		undo isolate port 0/3/14<br/>
+		undo isolate port 0/3/15<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************	<br/>
+		<br/>
+		ONU升级步骤<br/>
+		<br/>
+		MA5610-R306升级到MA5610-R307<br/>
+		<br/>
+		<br/>
+		ftp set<br/>
+    ftpuser<br/>
+    Changeme_123<br/>
+    <br/>
+    load  packet  ftp  211.103.11.42  MA5610-R307/MA5610V800R307C01.bin<br/>
+    y<br/>
+    <br/>
+		<br/>
+		display progress load<br/>
+		<br/>
+		<br/>
+		<br/>
+    reboot system<br/>
+    y<br/>
+		<br/>
+    quit<br/>
+		<br/>
+    quit<br/>
+    y<br/>
+		<br/>
+		升完R307版本后再打SPH525补丁<br/>
+		<br/>
+		ftp set<br/>
+    ftpuser<br/>
+    Changeme_123<br/>
+    <br/>
+    load  patch  ftp  211.103.11.42  MA5610-R307/SPH525<br/>
+    <br/>
+    <br/>
+		<br/>
+		<br/>
+    patch  activate   SPH525<br/>
+    <br/>
+		<br/>
+    patch  run  SPH525<br/>
+		<br/>
+		<br/>
+		load  packetfile  ftp  211.103.11.42  MA5610-R307/MA5610V800R307C01HP5125<br/>
+    y<br/>
+    <br/>
+		<br/>
+    display progress load<br/>
+		<br/>
+		<br/>
+		<br/>
+    reboot system<br/>
+    y<br/>
+		<br/>
+    quit<br/>
+		<br/>
+    quit<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

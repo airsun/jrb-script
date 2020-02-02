@@ -1,0 +1,87 @@
+<html>
+
+<head>
+  <title>AK7750-VPLS-VPN数据专线业务脚本</title>
+  <script type="text/javascript" src="../../script.js"></script>
+  <script type="text/javascript" src="../../display.js"></script>
+  <script type="text/javascript">
+    $j = jQuery.noConflict();
+  </script>
+</head>
+
+<body>
+  <p id="template" style="display:none">
+    A端SDP-ID ${sdp} A端SDP描述${peerdes} A端SDP-IP地址 ${peerip} <br />
+    <br />
+    VPLS描述 ${vplsdes} VPLS-ID ${vplsid} lag-${lag}<br />
+    <br />
+    Z端业务描述 ${des} 外层VLAN ${svlan} 内层VLAN ${cvlan} 带宽${qos}M<br />
+    <br />
+    <span id="s_t" style="display:none; font-size:18px;">
+      ******************************************************************************************************************<br />
+      <br />
+      【创建SDP配置】<br />
+      <br />
+      config service<br />
+      sdp ${sdp} mpls create<br />
+      description ${peerdes}<br />
+      far-end ${peerip}<br />
+      ldp<br />
+      no shutdown<br />
+      exit<br />
+      <br />
+      ******************************************************************************************************************<br />
+      <br />
+      【新建VPLS实例开局配置】<br />
+      <br />
+      config service<br />
+      vpls ${vplsid} customer 20 create<br />
+      service-name ${vplsdes}<br />
+      description ${vplsdes}<br />
+      mesh-sdp ${sdp}:${vplsid} create<br />
+      description To_${peerdes}<br />
+      exit<br />
+      no shutdown<br />
+      exit<br />
+      exit<br />
+      <br />
+      ******************************************************************************************************************<br />
+      <br />
+      【已有VPLS实例业务配置】<br />
+      <br />
+      config service<br />
+      vpls ${vplsid}<br />
+      sap lag-${lag}:${svlan}.${cvlan} create<br />
+      description ${des}_${qos}M<br />
+      ingress<br />
+      qos 12${qos}<br />
+      exit<br />
+      egress<br />
+      qos 12${qos}<br />
+      exit<br />
+      exit<br />
+      exit<br />
+      exit<br />
+      admin save<br />
+      <br />
+      <br />
+      ******************************************************************************************************************
+      <br />
+    </span>
+  </p>
+  <form name="form" action="#">
+    <div id="entry_area">
+      <!-- 生成输入区域HTML -->
+      <script type="text/javascript">
+        readyTemplate();
+      </script>
+    </div>
+    <input type="button" value="生成" onclick="generate()" />
+    <input type="button" value="刷新" onclick=location.reload()>
+    <div id="output_area">
+      <!-- 生产结果区域 -->
+    </div>
+  </form>
+</body>
+
+</html>

@@ -1,0 +1,767 @@
+﻿<html>
+<head>
+<title>8240,850E校园网GPON脚本 - 预配置</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  虚拟SN号中间3位数 ${auth}    PORT-ID  0/${gpon}/${ont0} <br/>
+	  业务VLAN ${vlan3}  校园网WLAN VLAN ${vlan1}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************<br/>
+		校园网GPON预配置<br/>
+		<br/>
+		 interface  gpon  0/${gpon}<br/>
+     <br/>
+     ont  add  ${ont0} 0 sn-auth  00000000000${auth}00	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-0<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 0 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 0 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 0 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 0 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 1 sn-auth  00000000000${auth}01	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-1<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 1 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 1 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 1 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 1 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 2 sn-auth  00000000000${auth}02	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-2<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 2 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 2 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 2 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 2 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 3 sn-auth  00000000000${auth}03	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-3<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 3 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 3 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 3 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 3 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 4 sn-auth  00000000000${auth}04	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-4<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 4 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 4 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 4 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 4 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 5 sn-auth  00000000000${auth}05	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-5<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 5 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 5 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 5 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 5 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 6 sn-auth  00000000000${auth}06	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-6<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 6 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 6 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 6 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 6 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 7 sn-auth  00000000000${auth}07	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-7<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 7 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 7 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 7 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 7 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 8 sn-auth  00000000000${auth}08	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-8<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 8 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 8 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 8 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 8 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 9 sn-auth  00000000000${auth}09	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-9<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 9 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 9 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 9 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 9 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 10 sn-auth  00000000000${auth}10	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-10<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 10 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 10 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 10 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 10 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 11 sn-auth  00000000000${auth}11	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-11<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 11 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 11 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 11 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 11 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 12 sn-auth  00000000000${auth}12	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-12<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 12 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 12 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 12 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 12 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 13 sn-auth  00000000000${auth}13	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-13<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 13 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 13 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 13 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 13 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 14 sn-auth  00000000000${auth}14	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-14<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 14 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 14 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 14 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 14 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 15 sn-auth  00000000000${auth}15	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-15<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 15 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 15 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 15 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 15 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 16 sn-auth  00000000000${auth}16	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-16<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 16 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 16 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 16 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 16 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 17 sn-auth  00000000000${auth}17	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-17<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 17 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 17 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 17 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 17 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 18 sn-auth  00000000000${auth}18	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-18<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 18 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 18 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 18 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 18 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 19 sn-auth  00000000000${auth}19	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-19<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 19 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 19 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 19 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 19 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 20 sn-auth  00000000000${auth}20	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-20<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 20 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 20 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 20 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 20 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 21 sn-auth  00000000000${auth}21	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-21<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 21 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 21 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 21 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 21 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 22 sn-auth  00000000000${auth}22	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-22<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 22 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 22 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 22 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 22 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 23 sn-auth  00000000000${auth}23	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-23<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 23 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 23 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 23 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 23 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 24 sn-auth  00000000000${auth}24	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-24<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 24 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 24 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 24 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 24 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 25 sn-auth  00000000000${auth}25	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-25<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 25 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 25 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 25 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 25 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 26 sn-auth  00000000000${auth}26	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-26<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 26 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 26 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 26 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 26 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 27 sn-auth  00000000000${auth}27	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-27<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 27 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 27 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 27 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 27 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 28 sn-auth  00000000000${auth}28	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-28<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 28 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 28 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 28 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 28 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 29 sn-auth  00000000000${auth}29	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-29<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 29 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 29 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 29 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 29 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 30 sn-auth  00000000000${auth}30	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-30<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 30 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 30 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 30 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 30 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 31 sn-auth  00000000000${auth}31	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-31<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 31 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 31 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 31 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 31 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 32 sn-auth  00000000000${auth}32	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-32<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 32 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 32 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 32 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 32 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 33 sn-auth  00000000000${auth}33	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-33<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 33 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 33 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 33 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 33 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 34 sn-auth  00000000000${auth}34	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-34<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 34 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 34 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 34 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 34 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 35 sn-auth  00000000000${auth}35	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-35<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 35 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 35 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 35 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 35 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 36 sn-auth  00000000000${auth}36	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-36<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 36 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 36 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 36 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 36 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 37 sn-auth  00000000000${auth}37	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-37<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 37 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 37 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 37 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 37 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 38 sn-auth  00000000000${auth}38	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-38<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 38 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 38 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 38 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 38 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 39 sn-auth  00000000000${auth}39	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-39<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 39 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 39 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 39 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 39 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 40 sn-auth  00000000000${auth}40	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-40<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 40 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 40 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 40 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 40 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 41 sn-auth  00000000000${auth}41	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-41<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 41 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 41 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 41 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 41 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 42 sn-auth  00000000000${auth}42	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-42<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 42 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 42 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 42 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 42 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 43 sn-auth  00000000000${auth}43	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-43<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 43 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 43 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 43 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 43 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 44 sn-auth  00000000000${auth}44	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-44<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 44 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 44 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 44 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 44 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 45 sn-auth  00000000000${auth}45	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-45<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 45 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 45 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 45 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 45 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 46 sn-auth  00000000000${auth}46	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-46<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 46 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 46 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 46 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 46 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 47 sn-auth  00000000000${auth}47	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-47<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 47 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 47 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 47 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 47 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 48 sn-auth  00000000000${auth}48	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-48<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 48 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 48 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 48 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 48 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 49 sn-auth  00000000000${auth}49	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-49<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 49 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 49 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 49 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 49 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 50 sn-auth  00000000000${auth}50	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-50<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 50 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 50 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 50 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 50 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 51 sn-auth  00000000000${auth}51	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 51 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 51 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 51 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 51 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 52 sn-auth  00000000000${auth}52	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 52 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 52 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 52 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 52 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 53 sn-auth  00000000000${auth}53	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 53 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 53 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 53 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 53 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 54 sn-auth  00000000000${auth}54	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-54<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 54 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 54 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 54 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 54 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 55 sn-auth  00000000000${auth}55	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-55<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 55 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 55 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 55 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 55 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 56 sn-auth  00000000000${auth}56	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-56<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 56 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 56 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 56 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 56 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 57 sn-auth  00000000000${auth}57	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-57<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 57 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 57 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 57 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 57 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 58 sn-auth  00000000000${auth}58	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-58<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 58 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 58 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 58 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 58 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 59 sn-auth  00000000000${auth}59	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-59<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 59 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 59 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 59 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 59 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 60 sn-auth  00000000000${auth}60	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-60<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 60 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 60 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 60 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 60 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 61 sn-auth  00000000000${auth}61	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-61<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 61 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 61 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 61 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 61 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 62 sn-auth  00000000000${auth}62	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-62<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 62 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 62 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 62 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 62 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     ont  add  ${ont0} 63 sn-auth  00000000000${auth}63	 omci  ont-lineprofile-id  500 ont-srvprofile-id  84 desc YuBuShu-63<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 63 eth  1 vlan 51<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 63 eth  2 vlan 52<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 63 eth  3 vlan 53<br/>
+     <br/>
+     ont  port  native-vlan  ${ont0} 63 eth  4 vlan 54<br/>
+     <br/>
+     <br/>
+     <br/>
+     <br/>
+     multi-service-port vlan ${vlan3} ont 0/${gpon}/${ont0} 0-63 gemindex 1 user-vlan 51<br/>
+     <br/>
+     y<br/>
+     <br/>
+     multi-service-port vlan ${vlan3} ont 0/${gpon}/${ont0} 0-63 gemindex 1 user-vlan 52<br/>
+     <br/>
+     y<br/>
+     <br/>
+     multi-service-port vlan ${vlan3} ont 0/${gpon}/${ont0} 0-63 gemindex 1 user-vlan 53<br/>
+     <br/>
+     y<br/>
+     <br/>
+     multi-service-port vlan ${vlan3} ont 0/${gpon}/${ont0} 0-63 gemindex 1 user-vlan 54<br/>
+     <br/>
+     y<br/>
+     <br/>
+     multi-service-port vlan ${vlan1} ont 0/${gpon}/${ont0} 0-63 gemindex 1 user-vlan ${vlan1}<br/>
+     <br/>
+     y<br/>
+     <br/>
+     <br/>
+     <br/>
+    </span>     
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

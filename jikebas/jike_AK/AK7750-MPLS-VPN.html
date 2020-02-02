@@ -1,0 +1,82 @@
+﻿<html>
+
+<head>
+  <title>AK7750-MPLS-VPN数据专线业务脚本</title>
+  <script type="text/javascript" src="../../script.js"></script>
+  <script type="text/javascript" src="../../display.js"></script>
+  <script type="text/javascript">
+    $j = jQuery.noConflict();
+  </script>
+</head>
+
+<body>
+  <p id="template" style="display:none">
+    VPRN-ID ${vprnid} VPN实例描述 ${vprndes} RD ${rd} RT ${rt} <br />
+    <br />
+    业务描述 ${des} 外层VLAN ${svlan} 内层VLAN ${cvlan} lag-${lag}<br />
+    <br />
+    IP地址${IP} 掩码位数${sub} 带宽${qos}M<br />
+    <br />
+    <span id="s_t" style="display:none; font-size:18px;">
+      ******************************************************************************************************************
+      <br />
+      【创建VPRN实例配置】<br />
+      config service<br />
+      vprn ${rd} customer 10 create<br />
+      service-name ${vprndes}<br />
+      description ${vprndes}<br />
+      autonomous-system 64800<br />
+      route-distinguisher 64800:${rd}<br />
+      auto-bind-tunnel<br />
+      resolution-filter<br />
+      ldp<br />
+      exit<br />
+      resolution filter<br />
+      exit<br />
+      vrf-target target:64800:${rt}<br />
+      no shutdown<br />
+      exit<br />
+      exit<br />
+      <br />
+      ******************************************************************************************************************
+      <br />
+      【已有VPRN实例业务配置】<br />
+      config service<br />
+      vprn ${vprnid}<br />
+      interface "sap lag-${lag}:${svlan}.${cvlan}" create<br />
+      description ${des}<br />
+      address ${IP}/${sub}<br />
+      sap lag-${lag}:${svlan}.${cvlan} create<br />
+      ingress<br />
+      qos 12${qos}<br />
+      exit<br />
+      egress<br />
+      qos 12${qos}<br />
+      exit<br />
+      exit<br />
+      urpf-check<br />
+      exit<br />
+      exit<br />
+      exit<br />
+      admin save<br />
+      <br />
+      ******************************************************************************************************************
+      <br />
+    </span>
+  </p>
+  <form name="form" action="#">
+    <div id="entry_area">
+      <!-- 生成输入区域HTML -->
+      <script type="text/javascript">
+        readyTemplate();
+      </script>
+    </div>
+    <input type="button" value="生成" onclick="generate()" />
+    <input type="button" value="刷新" onclick=location.reload()>
+    <div id="output_area">
+      <!-- 生产结果区域 -->
+    </div>
+  </form>
+</body>
+
+</html>

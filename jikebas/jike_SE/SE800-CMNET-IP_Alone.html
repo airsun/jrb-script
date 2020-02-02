@@ -1,0 +1,73 @@
+﻿<html>
+<head>
+<title>SE800 独立子网段脚本</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  业务描述${des}    lag-ID ${lag}   lag economical模式 ${economical} 外层VLAN ${svlan} 内层VLAN ${cvlan} <br/>
+	  <br/>
+	  IP地址 ${IP1}  子网号 ${IP2}  掩码位数${sub}  带宽${qos}M<br/>	
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		【业务开通】<br/>
+		config<br/>
+        context static-user<br/>
+        interface ${des}_CMNET<br/>
+        description ${des}_CMNET_${qos}M<br/>
+        ip address ${IP1}/${sub}<br/>
+        commit<br/>
+        exit<br/>
+        exit<br/>
+        <br/>   
+        link-group lag_${lag} access ${economical}<br/>
+        dot1q pvc ${svlan} encapsulation 1qtunnel <br/>
+        dot1q pvc ${svlan}:${cvlan}<br/>
+        bind interface ${des}_CMNET static-user<br/>
+        qos policy policing bw_${qos}Mup<br/>
+        qos policy metering bw_${qos}Mdown<br/>
+        commit<br/>
+        exit<br/>
+        <br/>
+        <br/>
+        context local <br/>
+        router bgp 64800 <br/>
+        address-family ipv4 unicast<br/>
+        network ${IP2}/${sub}  <br/> 
+        commit  <br/>
+        exit<br/>
+        <br/>
+        ip route ${IP2}/${sub} context static-user permanent  <br/>
+        commit  <br/>
+        exit<br/>
+        exit<br/>
+        save configuration <br/>
+        exit <br/>
+        <br/>
+		******************************************************************************************************************
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

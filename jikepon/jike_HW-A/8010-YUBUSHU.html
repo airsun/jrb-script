@@ -1,0 +1,458 @@
+﻿<html>
+<head>
+<title>8010脚本 - 预配置</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  虚拟MAC中间4位 ${auth}    ONT-ID  0/${epon}/${ont0} <br/>
+	  外层VLAN ${vlan3}  外层vlan QINQ上行口 0/${uplink0} ${uplink1}<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************
+		<br/>
+		<br/>
+		OLT外层VLAN及粗流配置<br/>
+		<br/>
+		vlan ${vlan3} smart<br/>
+		vlan attrib ${vlan3} q-in-q <br/> 
+		port vlan ${vlan3} 0/${uplink0} ${uplink1} <br/>
+		<br/>
+		<br/>
+		service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont all multi-service user-vlan 3001 to 3950 <br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************
+		<br/>
+		OLT注册ONU及FTTH业务配置<br/>
+		<br/>
+    interface  epon  0/${epon}<br/>
+    <br/>
+    ont  add  ${ont0} 0 mac-auth  0000-${auth}-0000 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-0<br/>
+    <br/>
+    ont  add  ${ont0} 1 mac-auth  0000-${auth}-0001 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-1<br/>
+    <br/>
+    ont  add  ${ont0} 2 mac-auth  0000-${auth}-0002 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-2<br/>
+    <br/>
+    ont  add  ${ont0} 3 mac-auth  0000-${auth}-0003 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-3<br/>
+    <br/>
+    ont  add  ${ont0} 4 mac-auth  0000-${auth}-0004 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-4<br/>
+    <br/>
+    ont  add  ${ont0} 5 mac-auth  0000-${auth}-0005 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-5<br/>
+    <br/>
+    ont  add  ${ont0} 6 mac-auth  0000-${auth}-0006 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-6<br/>
+    <br/>
+    ont  add  ${ont0} 7 mac-auth  0000-${auth}-0007 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-7<br/>
+    <br/>
+    ont  add  ${ont0} 8 mac-auth  0000-${auth}-0008 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-8<br/>
+    <br/>
+    ont  add  ${ont0} 9 mac-auth  0000-${auth}-0009 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-9<br/>
+    <br/>
+    ont  add  ${ont0} 10 mac-auth  0000-${auth}-0010 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-10<br/>
+    <br/>
+    ont  add  ${ont0} 11 mac-auth  0000-${auth}-0011 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-11<br/>
+    <br/>
+    ont  add  ${ont0} 12 mac-auth  0000-${auth}-0012 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-12<br/>
+    <br/>
+    ont  add  ${ont0} 13 mac-auth  0000-${auth}-0013 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-13<br/>
+    <br/>
+    ont  add  ${ont0} 14 mac-auth  0000-${auth}-0014 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-14<br/>
+    <br/>
+    ont  add  ${ont0} 15 mac-auth  0000-${auth}-0015 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-15<br/>
+    <br/>
+    ont  add  ${ont0} 16 mac-auth  0000-${auth}-0016 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-16<br/>
+    <br/>
+    ont  add  ${ont0} 17 mac-auth  0000-${auth}-0017 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-17<br/>
+    <br/>
+    ont  add  ${ont0} 18 mac-auth  0000-${auth}-0018 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-18<br/>
+    <br/>
+    ont  add  ${ont0} 19 mac-auth  0000-${auth}-0019 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-19<br/>
+    <br/>
+    ont  add  ${ont0} 20 mac-auth  0000-${auth}-0020 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-20<br/>
+    <br/>
+    ont  add  ${ont0} 21 mac-auth  0000-${auth}-0021 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-21<br/>
+    <br/>
+    ont  add  ${ont0} 22 mac-auth  0000-${auth}-0022 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-22<br/>
+    <br/>
+    ont  add  ${ont0} 23 mac-auth  0000-${auth}-0023 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-23<br/>
+    <br/>
+    ont  add  ${ont0} 24 mac-auth  0000-${auth}-0024 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-24<br/>
+    <br/>
+    ont  add  ${ont0} 25 mac-auth  0000-${auth}-0025 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-25<br/>
+    <br/>
+    ont  add  ${ont0} 26 mac-auth  0000-${auth}-0026 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-26<br/>
+    <br/>
+    ont  add  ${ont0} 27 mac-auth  0000-${auth}-0027 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-27<br/>
+    <br/>
+    ont  add  ${ont0} 28 mac-auth  0000-${auth}-0028 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-28<br/>
+    <br/>
+    ont  add  ${ont0} 29 mac-auth  0000-${auth}-0029 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-29<br/>
+    <br/>
+    ont  add  ${ont0} 30 mac-auth  0000-${auth}-0030 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-30<br/>
+    <br/>
+    ont  add  ${ont0} 31 mac-auth  0000-${auth}-0031 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-31<br/>
+    <br/>
+    ont  add  ${ont0} 32 mac-auth  0000-${auth}-0032 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-32<br/>
+    <br/>
+    ont  add  ${ont0} 33 mac-auth  0000-${auth}-0033 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-33<br/>
+    <br/>
+    ont  add  ${ont0} 34 mac-auth  0000-${auth}-0034 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-34<br/>
+    <br/>
+    ont  add  ${ont0} 35 mac-auth  0000-${auth}-0035 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-35<br/>
+    <br/>
+    ont  add  ${ont0} 36 mac-auth  0000-${auth}-0036 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-36<br/>
+    <br/>
+    ont  add  ${ont0} 37 mac-auth  0000-${auth}-0037 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-37<br/>
+    <br/>
+    ont  add  ${ont0} 38 mac-auth  0000-${auth}-0038 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-38<br/>
+    <br/>
+    ont  add  ${ont0} 39 mac-auth  0000-${auth}-0039 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-39<br/>
+    <br/>
+    ont  add  ${ont0} 40 mac-auth  0000-${auth}-0040 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-40<br/>
+    <br/>
+    ont  add  ${ont0} 41 mac-auth  0000-${auth}-0041 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-41<br/>
+    <br/>
+    ont  add  ${ont0} 42 mac-auth  0000-${auth}-0042 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-42<br/>
+    <br/>
+    ont  add  ${ont0} 43 mac-auth  0000-${auth}-0043 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-43<br/>
+    <br/>
+    ont  add  ${ont0} 44 mac-auth  0000-${auth}-0044 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-44<br/>
+    <br/>
+    ont  add  ${ont0} 45 mac-auth  0000-${auth}-0045 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-45<br/>
+    <br/>
+    ont  add  ${ont0} 46 mac-auth  0000-${auth}-0046 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-46<br/>
+    <br/>
+    ont  add  ${ont0} 47 mac-auth  0000-${auth}-0047 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-47<br/>
+    <br/>
+    ont  add  ${ont0} 48 mac-auth  0000-${auth}-0048 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-48<br/>
+    <br/>
+    ont  add  ${ont0} 49 mac-auth  0000-${auth}-0049 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-49<br/>
+    <br/>
+    ont  add  ${ont0} 50 mac-auth  0000-${auth}-0050 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-50<br/>
+    <br/>
+    ont  add  ${ont0} 51 mac-auth  0000-${auth}-0051 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-51<br/>
+    <br/>
+    ont  add  ${ont0} 52 mac-auth  0000-${auth}-0052 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-52<br/>
+    <br/>
+    ont  add  ${ont0} 53 mac-auth  0000-${auth}-0053 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-53<br/>
+    <br/>
+    ont  add  ${ont0} 54 mac-auth  0000-${auth}-0054 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-54<br/>
+    <br/>
+    ont  add  ${ont0} 55 mac-auth  0000-${auth}-0055 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-55<br/>
+    <br/>
+    ont  add  ${ont0} 56 mac-auth  0000-${auth}-0056 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-56<br/>
+    <br/>
+    ont  add  ${ont0} 57 mac-auth  0000-${auth}-0057 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-57<br/>
+    <br/>
+    ont  add  ${ont0} 58 mac-auth  0000-${auth}-0058 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-58<br/>
+    <br/>
+    ont  add  ${ont0} 59 mac-auth  0000-${auth}-0059 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-59<br/>
+    <br/>
+    ont  add  ${ont0} 60 mac-auth  0000-${auth}-0060 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-60<br/>
+    <br/>
+    ont  add  ${ont0} 61 mac-auth  0000-${auth}-0061 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-61<br/>
+    <br/>
+    ont  add  ${ont0} 62 mac-auth  0000-${auth}-0062 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-62<br/>
+    <br/>
+    ont  add  ${ont0} 63 mac-auth  0000-${auth}-0063 oam  ont-lineprofile-id  200 ont-srvprofile-id  10 desc ${des}-63<br/>
+    <br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 0 eth  1 vlan 3801<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 1 eth  1 vlan 3802<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 2 eth  1 vlan 3803<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 3 eth  1 vlan 3804<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 4 eth  1 vlan 3805<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 5 eth  1 vlan 3806<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 6 eth  1 vlan 3807<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 7 eth  1 vlan 3808<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 8 eth  1 vlan 3809<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 9 eth  1 vlan 3810<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 10 eth  1 vlan 3811<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 11 eth  1 vlan 3812<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 12 eth  1 vlan 3813<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 13 eth  1 vlan 3814<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 14 eth  1 vlan 3815<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 15 eth  1 vlan 3816<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 16 eth  1 vlan 3817<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 17 eth  1 vlan 3818<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 18 eth  1 vlan 3819<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 19 eth  1 vlan 3820<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 20 eth  1 vlan 3821<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 21 eth  1 vlan 3822<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 22 eth  1 vlan 3823<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 23 eth  1 vlan 3824<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 24 eth  1 vlan 3825<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 25 eth  1 vlan 3826<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 26 eth  1 vlan 3827<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 27 eth  1 vlan 3828<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 28 eth  1 vlan 3829<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 29 eth  1 vlan 3830<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 30 eth  1 vlan 3831<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 31 eth  1 vlan 3832<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 32 eth  1 vlan 3833<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 33 eth  1 vlan 3834<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 34 eth  1 vlan 3835<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 35 eth  1 vlan 3836<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 36 eth  1 vlan 3837<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 37 eth  1 vlan 3838<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 38 eth  1 vlan 3839<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 39 eth  1 vlan 3840<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 40 eth  1 vlan 3841<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 41 eth  1 vlan 3842<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 42 eth  1 vlan 3843<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 43 eth  1 vlan 3844<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 44 eth  1 vlan 3845<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 45 eth  1 vlan 3846<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 46 eth  1 vlan 3847<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 47 eth  1 vlan 3848<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 48 eth  1 vlan 3849<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 49 eth  1 vlan 3850<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 50 eth  1 vlan 3851<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 51 eth  1 vlan 3852<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 52 eth  1 vlan 3853<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 53 eth  1 vlan 3854<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 54 eth  1 vlan 3855<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 55 eth  1 vlan 3856<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 56 eth  1 vlan 3857<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 57 eth  1 vlan 3858<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 58 eth  1 vlan 3859<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 59 eth  1 vlan 3860<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 60 eth  1 vlan 3861<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 61 eth  1 vlan 3862<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 62 eth  1 vlan 3863<br/>
+    <br/>
+    ont  port  native-vlan  ${ont0} 63 eth  1 vlan 3864<br/>
+    <br/>
+    <br/>
+    quit<br/>
+    <br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 0 multi-service user-vlan 3801<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 1 multi-service user-vlan 3802<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 2 multi-service user-vlan 3803<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 3 multi-service user-vlan 3804<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 4 multi-service user-vlan 3805<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 5 multi-service user-vlan 3806<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 6 multi-service user-vlan 3807<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 7 multi-service user-vlan 3808<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 8 multi-service user-vlan 3809<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 9 multi-service user-vlan 3810<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 10 multi-service user-vlan 3811<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 11 multi-service user-vlan 3812<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 12 multi-service user-vlan 3813<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 13 multi-service user-vlan 3814<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 14 multi-service user-vlan 3815<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 15 multi-service user-vlan 3816<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 16 multi-service user-vlan 3817<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 17 multi-service user-vlan 3818<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 18 multi-service user-vlan 3819<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 19 multi-service user-vlan 3820<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 20 multi-service user-vlan 3821<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 21 multi-service user-vlan 3822<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 22 multi-service user-vlan 3823<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 23 multi-service user-vlan 3824<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 24 multi-service user-vlan 3825<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 25 multi-service user-vlan 3826<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 26 multi-service user-vlan 3827<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 27 multi-service user-vlan 3828<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 28 multi-service user-vlan 3829<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 29 multi-service user-vlan 3830<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 30 multi-service user-vlan 3831<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 31 multi-service user-vlan 3832<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 32 multi-service user-vlan 3833<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 33 multi-service user-vlan 3834<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 34 multi-service user-vlan 3835<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 35 multi-service user-vlan 3836<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 36 multi-service user-vlan 3837<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 37 multi-service user-vlan 3838<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 38 multi-service user-vlan 3839<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 39 multi-service user-vlan 3840<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 40 multi-service user-vlan 3841<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 41 multi-service user-vlan 3842<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 42 multi-service user-vlan 3843<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 43 multi-service user-vlan 3844<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 44 multi-service user-vlan 3845<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 45 multi-service user-vlan 3846<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 46 multi-service user-vlan 3847<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 47 multi-service user-vlan 3848<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 48 multi-service user-vlan 3849<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 49 multi-service user-vlan 3850<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 50 multi-service user-vlan 3851<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 51 multi-service user-vlan 3852<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 52 multi-service user-vlan 3853<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 53 multi-service user-vlan 3854<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 54 multi-service user-vlan 3855<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 55 multi-service user-vlan 3856<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 56 multi-service user-vlan 3857<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 57 multi-service user-vlan 3858<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 58 multi-service user-vlan 3859<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 59 multi-service user-vlan 3860<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 60 multi-service user-vlan 3861<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 61 multi-service user-vlan 3862<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 62 multi-service user-vlan 3863<br/>
+		<br/>
+    service-port vlan ${vlan3} epon 0/${epon}/${ont0} ont 63 multi-service user-vlan 3864<br/>
+		<br/>
+		<br/>
+		<br/>
+		multi-service-port  vlan 4015 ont 0/${epon}/${ont0} 0-63 user-vlan 4015 inbound traffic-table index 26 outbound traffic-table index 26 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan 3951 ont 0/${epon}/${ont0} 0-63 user-vlan 3951 inbound traffic-table index 25 outbound traffic-table index 25 <br/>
+		y<br/>
+		<br/>
+		multi-service-port  vlan ${vlan3-500}  ont 0/${epon}/${ont0} 0-63 user-vlan 1031 inbound traffic-table index  24  outbound  traffic-table index 24<br/>
+		y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

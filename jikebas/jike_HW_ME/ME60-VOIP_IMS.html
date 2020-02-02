@@ -1,0 +1,49 @@
+﻿<html>
+
+<head>
+	<title>ME60-VOIP_IMS专线业务脚本</title>
+	<script type="text/javascript" src="../../script.js"></script>
+	<script type="text/javascript" src="../../display.js"></script>
+	<script type="text/javascript">
+		$j = jQuery.noConflict();
+	</script>
+</head>
+
+<body>
+	<p id="template" style="display:none">
+		<br />
+		业务描述${des} Eth-Trunk${trunk} 内层VLAN ${cvlan} <br />
+		<br />
+		IMS-VOIP起始地址${IPs} IMS-VOIP结束地址${IPe} IMS-VOIP网关地址${gw} <br />
+		<br />
+		<span id="s_t" style="display:none; font-size:18px;">
+			******************************************************************************************************************
+			<br />
+			【业务开通】<br />
+			system-view <br />
+			static-user ${des} ${IPs} ${IPe} gateway ${gw} vpn-instance VPN_JS_JMCC_IMS interface
+			Eth-Trunk${trunk}.4013 vlan ${cvlan} qinq 4013 domain-name ims detect<br />
+			quit<br />
+			save<br />
+			y<br />
+			<br />
+			******************************************************************************************************************
+			<br />
+		</span>
+	</p>
+	<form name="form" action="#">
+		<div id="entry_area">
+			<!-- 生成输入区域HTML -->
+			<script type="text/javascript">
+				readyTemplate();
+			</script>
+		</div>
+		<input type="button" value="生成" onclick="generate()" />
+		<input type="button" value="刷新" onclick=location.reload()>
+		<div id="output_area">
+			<!-- 生产结果区域 -->
+		</div>
+	</form>
+</body>
+
+</html>

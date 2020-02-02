@@ -1,0 +1,60 @@
+﻿<html>
+
+<head>
+  <title>AK7750 共享IP脚本</title>
+  <script type="text/javascript" src="../../script.js"></script>
+  <script type="text/javascript" src="../../display.js"></script>
+  <script type="text/javascript">
+    $j = jQuery.noConflict();
+  </script>
+</head>
+
+<body>
+  <p id="template" style="display:none">
+    ies-ID${ies} subscriber-interface名称 ${sub} lag-ID ${lag} 外层VLAN ${svlan} 内层vlan ${cvlan} <br />
+    <br />
+    业务描述${des} IP地址 ${IP} 带宽${qos}M <br />
+    <br />
+    <span id="s_t" style="display:none; font-size:18px;">
+      ******************************************************************************************************************
+      <br />
+      config service<br />
+      ies ${ies}<br />
+      subscriber-interface ${sub}<br />
+      group-interface "sap lag-${lag}:${svlan}.${cvlan}" create<br />
+      description "${des}_CMNET_${qos}M"<br />
+      sap lag-${lag}:${svlan}.${cvlan} create<br />
+      ingress<br />
+      qos 12${qos}<br />
+      exit<br />
+      egress<br />
+      qos 12${qos}<br />
+      exit<br />
+      anti-spoof ip<br />
+      static-host ip ${IP} create<br />
+      no shutdown<br />
+      exit<br />
+      exit<br />
+      exit<br />
+      admin save<br />
+      <br />
+      ******************************************************************************************************************<br />
+      <br />
+    </span>
+  </p>
+  <form name="form" action="#">
+    <div id="entry_area">
+      <!-- 生成输入区域HTML -->
+      <script type="text/javascript">
+        readyTemplate();
+      </script>
+    </div>
+    <input type="button" value="生成" onclick="generate()" />
+    <input type="button" value="刷新" onclick=location.reload()>
+    <div id="output_area">
+      <!-- 生产结果区域 -->
+    </div>
+  </form>
+</body>
+
+</html>

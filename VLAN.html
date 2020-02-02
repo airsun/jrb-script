@@ -1,0 +1,127 @@
+﻿<html>
+<head>
+<title>江苏移动业务VLAN规范计算表</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  华为OLT
+	  槽位号 ${HWslot}  端口号 ${HWport}    ONU-ID  ${HWont}<br/>
+	  <br/>
+	  中兴OLT
+	  槽位号 ${ZXslot}  端口号 ${ZXport}    ONU-ID  ${ZXont}<br/>
+	  <br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************<br/>
+		华为OLT<br/>
+		<br/>
+		FTTH宽带业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+31+HWport}.${HWont+31}<br/>
+		<br/>
+		<br/>
+		FTTB宽带业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+31+HWport}.${(HWont*24)+159}-${(HWont*24)+159+23}<br/>
+		<br/>
+		<br/>
+		家庭互联网电视业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+1031+HWport}.1031<br/>
+		<br/>
+		<br/>
+		集团互联网电视业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+1031+HWport}.2013<br/>
+		<br/>
+		<br/>
+		集团互联网专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+2031+HWport}.2031－2280<br/>
+		<br/>
+		<br/>
+		集团NGN语音专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： 4011.2281－2530<br/>
+		<br/>
+		<br/>
+		集团IMS语音专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： 4013.2281－2530<br/>
+		<br/>
+		<br/>
+		集团VPLS/VPN专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(HWslot-1)*16+2531+HWport}.2531－2780<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		中兴OLT<br/>
+		<br/>
+		FTTH宽带业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+30+ZXport}.${ZXont+30}<br/>
+		<br/>
+		<br/>
+		FTTB宽带业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+30+ZXport}.${(ZXont-1)*24+159}-${(ZXont-1)*24+159+23}<br/>
+		<br/>
+		<br/>
+		家庭互联网电视业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+1030+ZXport}.1031<br/>
+		<br/>
+		<br/>
+		集团互联网电视业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+1030+ZXport}.2013<br/>
+		<br/>
+		<br/>
+		集团互联网专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+2030+ZXport}.2031－2280<br/>
+		<br/>
+		<br/>
+		集团NGN语音专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： 4011.2281－2530<br/>
+		<br/>
+		<br/>
+		集团IMS语音专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： 4013.2281－2530<br/>
+		<br/>
+		<br/>
+		集团VPLS/VPN专线业务<br/>
+		<br/>
+		SVLAN.CVLAN： ${(ZXslot-1)*16+2530+ZXport}.2531－2780<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    <br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>

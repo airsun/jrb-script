@@ -1,0 +1,295 @@
+﻿<html>
+<head>
+<title>5610语音脚本 - H248</title>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="display.js"></script>
+<script type="text/javascript">
+  $j = jQuery.noConflict();
+</script>
+</head>
+<font family:宋体>
+<font size=4>
+<body>
+<p id="template" style="display:none">
+	  语音VLAN ${vlan} 语音IP ${ip}  语音网关 ${gatway} <br/>
+		<br/>
+		华为NGN 域名 ${domain1}    中兴NGN 域名 ${domain2}  <br/>	
+		<br/>
+		MA5610 语音板槽位 ${board_start}-${board_end} 语音单板端口数 31或63 ${port} <br/>
+		<br/>
+		<br/>
+		<br/>
+		<span id="s_t" style="display:none; font-size:18px;">
+		******************************************************************************************************************<br/>
+		<br/>
+		<br/>
+		华为NGN <br/>
+		<br/>
+		<br/>
+    tid-template add 32 format %u parameter-list R name 0  <br/>
+    <br/>
+    fax parameters  flow  v3<br/>
+    <br/>
+    fax-modem  parameters  rfc2198-start-mode  disableRfc2198SmartStartup<br/>
+    <br/>
+    vlan ${vlan} smart <br/>
+    <br/>
+    port vlan ${vlan} 0/0 1<br/>
+    <br/>
+    interface vlanif ${vlan}<br/>
+    <br/>
+    ip address  ${ip} 255.255.255.0<br/>
+    <br/>
+    quit  <br/>
+    <br/>
+    ip route-static 211.103.1.22    255.255.255.255  ${gatway}<br/>
+    <br/>
+    voip<br/>
+    <br/>
+    ip address media        ${ip}     ${gatway}<br/>
+    <br/>
+    ip address signaling      ${ip}<br/>
+    <br/>
+    qos vlan media       ${ip} priority 4<br/>
+    <br/>
+    qos vlan signaling      ${ip} priority 4<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    interface h248 0<br/>
+    y<br/>
+    <br/>
+    digitmap-timer long 5<br/>
+    <br/>
+    digitmap-timer short 3<br/>
+    <br/>
+    if-h248 attribute mgip       ${ip} mgport 2944 transfer udp<br/>
+    <br/>
+    if-h248 attribute primary-mgc-ip1 211.103.1.22  primary-mgc-port 2944 mgc-domain-name1 ${domain1}<br/>
+    <br/>
+    if-h248 attribute mg-media-ip1       ${ip} MIDtype domainName<br/>
+    <br/>
+    if-h248 attribute profile-negotiation enable start-negotiate-version 1<br/>
+    <br/>
+    if-h248 attribute domainName ${domain1}<br/>
+    <br/>
+    tid-format rtp prefix RTP/ template 32 <br/>
+    <br/>
+    mg-software parameter 2 2<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    esl user <br/>
+    <br/>
+    mgpstnuser batadd 0/${board_start}/0 0/${board_end}/${port} 0 terminalid 0 step 1<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    pstnport<br/>
+    <br/>
+    pstnport attribute batset 0/${board_start}/0 0/${board_end}/${port} nlp-mode 2<br/>
+    <br/>
+    quit<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    interface h248 0<br/>
+    reset coldstart<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		<br/>
+	  中兴NGN 老平台SS5 （211.143.228.148） <br/>
+		<br/>
+		<br/>
+    tid-template add 32 format %u parameter-list R name 0  <br/>
+    <br/>
+    fax parameters  flow  v3<br/>
+    <br/>
+    fax-modem  parameters  rfc2198-start-mode  disableRfc2198SmartStartup<br/>
+    <br/>
+    vlan ${vlan} smart <br/>
+    <br/>
+    port vlan ${vlan} 0/0 1<br/>
+    <br/>
+    interface vlanif ${vlan}<br/>
+    <br/>
+    ip address  ${ip} 255.255.255.0<br/>
+    <br/>
+    quit  <br/>
+    <br/>
+    ip route-static 211.143.228.148    255.255.255.255  ${gatway}<br/>
+    <br/>
+    voip<br/>
+    <br/>
+    ip address media        ${ip}     ${gatway}<br/>
+    <br/>
+    ip address signaling      ${ip}<br/>
+    <br/>
+    qos vlan media       ${ip} priority 4<br/>
+    <br/>
+    qos vlan signaling      ${ip} priority 4<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    interface h248 0<br/>
+    y<br/>
+    <br/>
+    digitmap-timer long 5<br/>
+    <br/>
+    digitmap-timer short 3<br/>
+    <br/>
+    if-h248 attribute mgip       ${ip} mgport 2944 transfer udp<br/>
+    <br/>
+    if-h248 attribute primary-mgc-ip1 211.143.228.148  primary-mgc-port 2944 mgc-domain-name1 ${domain2}-BGW<br/>
+    <br/>
+    if-h248 attribute mg-media-ip1       ${ip} MIDtype domainName<br/>
+    <br/>
+    if-h248 attribute profile-index 6 profile-negotiation enable start-negotiate-version 1<br/>
+    <br/>
+    if-h248 attribute domainName ${domain2}<br/>
+    <br/>
+    tid-format rtp prefix RTP/ template 32 <br/>
+    <br/>
+    mg-software parameter 2 2<br/>
+    <br/>
+    mg-software parameter 13 1<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    esl user <br/>
+    <br/>
+    mgpstnuser batadd 0/${board_start}/0 0/${board_end}/${port} 0 terminalid 0 step 1<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    pstnport<br/>
+    <br/>
+    pstnport attribute batset 0/${board_start}/0 0/${board_end}/${port} nlp-mode 2<br/>
+    <br/>
+    quit<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    interface h248 0<br/>
+    reset coldstart<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		******************************************************************************************************************<br/>
+		<br/>
+		<br/>
+	  中兴NGN 新平台SS6 （211.143.228.172） <br/>
+		<br/>
+		<br/>
+    tid-template add 32 format %u parameter-list R name 0  <br/>
+    <br/>
+    fax parameters  flow  v3<br/>
+    <br/>
+    fax-modem  parameters  rfc2198-start-mode  disableRfc2198SmartStartup<br/>
+    <br/>
+    vlan ${vlan} smart <br/>
+    <br/>
+    port vlan ${vlan} 0/0 1<br/>
+    <br/>
+    interface vlanif ${vlan}<br/>
+    <br/>
+    ip address  ${ip} 255.255.255.0<br/>
+    <br/>
+    quit  <br/>
+    <br/>
+    ip route-static 211.143.228.172    255.255.255.255  ${gatway}<br/>
+    <br/>
+    voip<br/>
+    <br/>
+    ip address media        ${ip}     ${gatway}<br/>
+    <br/>
+    ip address signaling      ${ip}<br/>
+    <br/>
+    qos vlan media       ${ip} priority 4<br/>
+    <br/>
+    qos vlan signaling      ${ip} priority 4<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    interface h248 0<br/>
+    y<br/>
+    <br/>
+    digitmap-timer long 5<br/>
+    <br/>
+    digitmap-timer short 3<br/>
+    <br/>
+    if-h248 attribute mgip       ${ip} mgport 2944 transfer udp<br/>
+    <br/>
+    if-h248 attribute primary-mgc-ip1 211.143.228.172  primary-mgc-port 2944 mgc-domain-name1 ${domain2}-BGW<br/>
+    <br/>
+    if-h248 attribute mg-media-ip1       ${ip} MIDtype domainName<br/>
+    <br/>
+    if-h248 attribute profile-index 6 profile-negotiation enable start-negotiate-version 1<br/>
+    <br/>
+    if-h248 attribute domainName ${domain2}<br/>
+    <br/>
+    tid-format rtp prefix RTP/ template 32 <br/>
+    <br/>
+    mg-software parameter 2 2<br/>
+    <br/>
+    mg-software parameter 13 1<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    esl user <br/>
+    <br/>
+    mgpstnuser batadd 0/${board_start}/0 0/${board_end}/${port} 0 terminalid 0 step 1<br/>
+    <br/>
+    quit<br/>
+    <br/>
+    pstnport<br/>
+    <br/>
+    pstnport attribute batset 0/${board_start}/0 0/${board_end}/${port} nlp-mode 2<br/>
+    <br/>
+    quit<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    interface h248 0<br/>
+    reset coldstart<br/>
+    y<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+    </span>
+</p>
+<form name="form" action="#">
+	<div id="entry_area">
+		<!-- 生成输入区域HTML -->
+		<script type="text/javascript">
+			readyTemplate();
+		</script>
+	</div>
+	<input type="button" value="生成" onclick="generate()" /> 
+	<input type="button" value="刷新" onclick=location.reload()>
+	<div id="output_area">
+		<!-- 生产结果区域 -->
+	</div>
+</form>
+</body>
+</html>
